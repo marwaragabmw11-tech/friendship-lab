@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Friendship Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&family=Tajawal:wght@400;500;700;800&family=Baloo+Bhaijaan+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#fdf8ee; --card:#fffdf7; --ink:#3b2f2a; --soft:#7a6a60;
+  --yellow:#f3b93a; --yellow-l:#fff1cc; --red:#d9534a; --green:#5a9e5f; --green-l:#e3f3e1;
+  --purple:#8b6cc4; --purple-l:#eee6fa; --blue:#3f6fb5; --blue-l:#e2ecfa; --bad-l:#fde6e3;
+  --line:#eadfcb; --shadow:0 6px 18px rgba(90,60,30,.10);
+  --head:'Baloo Bhaijaan 2','Tajawal',sans-serif; --body:'Tajawal',sans-serif;
+}
+html[lang="en"]{--head:'Baloo 2','Nunito',sans-serif;--body:'Nunito',sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  background-image:radial-gradient(circle at 10% 15%,rgba(243,185,58,.09) 0,transparent 40%),radial-gradient(circle at 90% 65%,rgba(139,108,196,.08) 0,transparent 40%);min-height:100vh}
+h1,h2,h3{font-family:var(--head);line-height:1.2;margin:0}
+button{font-family:inherit;cursor:pointer;color:inherit}
+button:disabled{cursor:default}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 40px}
+.alt-en{font-family:'Nunito',sans-serif;direction:ltr;text-align:left}
+.alt-ar{font-family:'Tajawal',sans-serif;direction:rtl;text-align:right}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:rgba(253,248,238,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.hrow{display:flex;align-items:center;gap:8px;padding:10px 16px;max-width:760px;margin:0 auto}
+.home-btn{border:2px solid var(--line);background:#fff;border-radius:14px;width:40px;height:40px;font-size:20px;flex:0 0 auto}
+.brand{font-family:var(--head);font-weight:800;font-size:19px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--red)}
+.stars{background:var(--yellow-l);border:2px solid var(--yellow);border-radius:999px;padding:3px 11px;font-weight:800;font-size:15px;white-space:nowrap}
+.lang-btn{border:2px solid var(--blue);background:var(--blue-l);border-radius:999px;padding:4px 12px;font-weight:800;font-size:14px;white-space:nowrap}
+
+/* common */
+.page-h{display:flex;align-items:center;gap:10px;margin:22px 0 4px}
+.page-h .ic{font-size:30px}
+.page-h h2{font-size:28px}
+.sub{color:var(--soft);margin:0 0 16px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
+.btn{border:2px solid var(--line);background:#fff;border-radius:14px;padding:7px 13px;font-weight:800;font-size:15px}
+a.btn{color:var(--ink)}
+.btn.yel{background:var(--yellow-l);border-color:var(--yellow)}
+.btn.blu{background:var(--blue-l);border-color:#9db7e3}
+.btn.grn{background:var(--green-l);border-color:var(--green)}
+.main-btn{background:var(--red);color:#fff;border:none;border-radius:16px;padding:11px 20px;font-weight:800;font-size:17px}
+.main-btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line)}
+.main-btn:disabled{opacity:.35}
+.center{text-align:center}
+.mt{margin-top:14px}
+
+/* home */
+.hero{text-align:center;padding:22px 0 6px}
+.hero h1{font-size:clamp(30px,8vw,46px);font-weight:800}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p{color:var(--soft);margin:6px 0 0}
+.hero img{margin:16px auto 0;width:min(300px,78%);border-radius:24px;border:6px solid #fff;box-shadow:var(--shadow);transform:rotate(-2deg);display:block}
+.hub{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.hub a{text-decoration:none;color:var(--ink);border-radius:22px;padding:16px 14px;border:2px solid var(--line);box-shadow:var(--shadow);display:block;background:var(--card)}
+.hub a .e{font-size:36px;line-height:1}
+.hub a h3{font-size:21px;margin-top:6px}
+.hub a p{margin:2px 0 0;color:var(--soft);font-size:14px;line-height:1.4}
+.hub a.wide{grid-column:1/-1;display:flex;gap:14px;align-items:center}
+
+/* list cards */
+.list{display:grid;gap:12px}
+.item{display:flex;gap:14px;align-items:center;text-decoration:none;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:20px;padding:12px;box-shadow:var(--shadow)}
+.item .thumb{flex:0 0 76px;height:76px;border-radius:16px;overflow:hidden;display:grid;place-items:center;font-size:36px}
+.item .thumb img{width:100%;height:100%;object-fit:cover}
+.item h3{font-size:20px}
+.item p{margin:2px 0 0;color:var(--soft);font-size:14px;line-height:1.4}
+.item .done{margin-inline-start:auto;font-size:22px;flex:0 0 auto}
+
+/* story */
+.story{padding:0;overflow:hidden}
+.scene-img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.ph{width:100%;aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.ph .pe{font-size:clamp(70px,22vw,120px);line-height:1.1;filter:drop-shadow(0 6px 10px rgba(0,0,0,.12))}
+.ph .pc{font-size:13px;font-weight:700;color:rgba(59,47,42,.55)}
+.scene-body{padding:16px 18px 18px}
+.scene-num{font-family:var(--head);font-weight:800;color:var(--red);font-size:15px}
+.scene-text{font-size:20px;font-weight:600;margin-top:4px}
+.scene-text q{quotes:none;font-weight:800;color:#8a3b34}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.other{display:none;margin-top:10px;background:var(--blue-l);border-radius:14px;padding:10px 14px;font-size:17px}
+.other.show{display:block}
+.choice{margin-top:14px;background:var(--yellow-l);border:2px dashed var(--yellow);border-radius:18px;padding:14px}
+.choice h3{font-size:20px;margin-bottom:6px}
+.opt{display:block;width:100%;text-align:start;background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px 12px;margin:7px 0;font-size:16px;font-weight:700}
+.opt.good{background:var(--green-l);border-color:var(--green)}
+.opt.bad{background:var(--bad-l);border-color:var(--red)}
+.fb{display:none;margin-top:8px;font-weight:700;border-radius:12px;padding:10px 12px}
+.fb.show{display:block}
+.fb.good{background:var(--green-l);color:#2f6b33}
+.fb.bad{background:var(--bad-l);color:#9b3129}
+.navrow{display:flex;justify-content:space-between;align-items:center;padding:12px 18px 16px;border-top:1px solid var(--line);gap:8px}
+.dots{display:flex;gap:5px;justify-content:center;flex:1;min-width:0}
+.dot{flex:0 0 9px;width:9px;height:9px;border-radius:50%;background:var(--line)}
+.dot.on{background:var(--red);transform:scale(1.3)}
+.end h3{font-size:22px;margin-bottom:6px}
+.skillbox{background:var(--green-l);border:2px solid var(--green);border-radius:18px;padding:14px;margin-top:14px}
+.thinkbox{background:var(--purple-l);border:2px solid #c9b5ee;border-radius:18px;padding:14px;margin-top:12px}
+.thinkbox ol{margin:6px 0 0;padding-inline-start:22px}
+.thinkbox li{margin:6px 0;font-weight:600}
+.badge-won{text-align:center;margin-top:16px}
+.badge-won .bg{font-size:64px;display:inline-block;animation:pop .5s}
+
+/* games */
+.g-count{color:var(--soft);font-weight:700;font-size:14px;text-align:center}
+.g-say{font-family:var(--head);font-weight:700;font-size:22px;margin:10px 0 4px;min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center}
+.g-btns{display:grid;gap:10px;margin-top:14px}
+.g-btns.two{grid-template-columns:1fr 1fr}
+.g-btns.three{grid-template-columns:1fr 1fr 1fr}
+.g-btns button{border-radius:18px;padding:12px 6px;font-size:16px;font-weight:800;border:3px solid var(--line);background:#fff;line-height:1.3}
+.g-btns button .big{font-size:30px;display:block}
+.g-btns small{display:block;font-size:12px;font-weight:700;color:var(--soft)}
+.g-yes{background:var(--green-l)!important;border-color:var(--green)!important}
+.g-no{background:var(--bad-l)!important;border-color:var(--red)!important}
+.g-fb{min-height:56px;margin-top:12px;font-weight:700;text-align:center}
+.feel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.feel-grid button{border:3px solid var(--line);background:#fff;border-radius:18px;padding:10px;font-weight:800;font-size:16px}
+.feel-grid button .big{font-size:34px;display:block}
+.feel-grid button.good{background:var(--green-l);border-color:var(--green)}
+.feel-grid button.bad{background:var(--bad-l);border-color:var(--red)}
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.mcard{aspect-ratio:3/4;border-radius:14px;border:3px solid var(--line);background:linear-gradient(135deg,#f6c86a,#e88aa7);font-size:15px;font-weight:800;display:grid;place-items:center;padding:4px;text-align:center}
+.mcard.open{background:#fff}
+.mcard.match{background:var(--green-l);border-color:var(--green)}
+.mcard .big{font-size:34px}
+.result{text-align:center}
+.result .big{font-size:60px}
+.result h3{font-size:28px}
+.mmm-key{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.mmm-key div{border-radius:14px;padding:8px 4px;text-align:center;font-size:13px;font-weight:700;border:2px solid var(--line);background:#fff;line-height:1.35}
+.mmm-key b{display:block;font-size:15px}
+
+/* tools */
+.balloon-wrap{height:260px;display:grid;place-items:center}
+.balloon{width:90px;height:90px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffb3c7,#e8577d);box-shadow:0 10px 30px rgba(232,87,125,.35);transition:transform 4s ease-in-out;position:relative}
+.balloon::after{content:'';position:absolute;left:50%;bottom:-40px;width:2px;height:40px;background:#c9a;transform:translateX(-50%)}
+.breath-txt{font-family:var(--head);font-size:26px;font-weight:800;text-align:center;min-height:40px}
+.thermo{display:grid;gap:8px}
+.lvl{display:flex;align-items:center;gap:12px;border-radius:18px;padding:10px 14px;border:3px solid transparent;text-align:start;width:100%;background:#fff}
+.lvl .big{font-size:34px}
+.lvl b{font-size:17px;display:block}
+.lvl span{font-size:14px;color:var(--soft)}
+.lvl.sel{border-color:var(--ink);transform:scale(1.02)}
+.imsg label{display:block;font-weight:800;margin:12px 0 4px}
+.imsg select{width:100%;font-family:inherit;font-size:16px;padding:9px;border-radius:12px;border:2px solid var(--line);background:#fff;color:var(--ink)}
+.sentence{margin-top:16px;background:var(--yellow-l);border:2px solid var(--yellow);border-radius:18px;padding:14px;font-size:20px;font-weight:800;font-family:var(--head)}
+.phr-cat{margin-top:18px}
+.phr-cat h3{font-size:20px;margin-bottom:8px}
+.phr{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--line);border-radius:14px;padding:8px 10px;margin:6px 0}
+.phr .t{flex:1;font-weight:700}
+.phr .t small{display:block;font-weight:600;color:var(--soft)}
+.skill-card{margin-top:12px}
+.skill-card h3{font-size:20px}
+.skill-card ol{margin:8px 0 0;padding-inline-start:22px}
+.skill-card li{margin:4px 0}
+
+/* badges */
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.bdg{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 6px;text-align:center}
+.bdg .big{font-size:40px}
+.bdg b{display:block;font-size:13px;line-height:1.3;margin-top:4px}
+.bdg.off{opacity:.35;filter:grayscale(1)}
+.q{background:var(--card);border:2px solid var(--line);border-inline-start:6px solid var(--purple);border-radius:16px;padding:12px 14px;margin-top:10px;font-weight:700}
+.pill{display:inline-block;background:var(--purple-l);color:#5b3f99;border-radius:999px;padding:2px 10px;font-weight:800;font-size:13px;margin:0 0 6px 4px}
+
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(140px);background:var(--ink);color:#fff;border-radius:999px;padding:9px 18px;font-weight:800;transition:transform .3s;z-index:50;max-width:90vw;text-align:center;line-height:1.4}
+.toast.show{transform:translateX(-50%) translateY(0)}
+@keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.pop{animation:pop .35s}
+footer{text-align:center;color:var(--soft);font-size:13px;padding:10px 16px 30px}
+.jq{font-size:19px;margin:16px 0 8px}
+.jq:first-child{margin-top:0}
+.three-col{grid-template-columns:repeat(3,1fr)!important;margin-top:0}
+.three-col button{padding:8px 4px;font-size:14px}
+.three-col button .big{font-size:28px}
+.lvls{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.lvls button{border:3px solid transparent;border-radius:14px;padding:8px 2px;font-size:26px;line-height:1.1}
+.lvls button small{display:block;font-size:13px;font-weight:800}
+.lvls button.sel{border-color:var(--ink)}
+textarea{width:100%;font-family:inherit;font-size:16px;padding:10px;border-radius:14px;border:2px solid var(--line);background:#fff;color:var(--ink);resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:2px solid var(--line);background:#fff;border-radius:999px;padding:5px 11px;font-size:14px;font-weight:700}
+.chip.on{background:var(--green-l);border-color:var(--green)}
+.jentry{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 14px;margin-top:10px}
+.je-top{display:flex;align-items:center;gap:10px}
+.je-top .big{font-size:36px}
+.je-top small{color:var(--soft)}
+.je-top .del{margin-inline-start:auto;padding:4px 9px}
+.jentry p{margin:8px 0;white-space:pre-wrap}
+.rp-sit{font-weight:800;font-size:19px;text-align:center;margin:8px 0}
+.chk{display:flex;gap:10px;align-items:center;background:#fff;border:2px solid var(--line);border-radius:12px;padding:9px 10px;margin:6px 0;font-weight:700}
+.chk input{width:22px;height:22px;accent-color:var(--green)}
+.skill-card ul{margin:8px 0 0;padding-inline-start:22px}
+.skill-card ul li{margin:6px 0}
+.recbox{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.btn.rec{background:#fde6e3;border-color:var(--red)}
+.recdot{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--red);animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.2}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hrow">
+    <button class="home-btn" onclick="go('home')" aria-label="Home">🏠</button>
+    <div class="brand" id="brand"></div>
+    <div class="stars" id="stars">⭐ 0</div>
+    <button class="lang-btn" id="langBtn" onclick="toggleLang()"></button>
+  </div>
+</header>
+<main class="wrap" id="app"></main>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   STATE
+   ========================================================= */
+let lang='ar';
+let stars=0;
+let earned={};
+let awarded={};
+try{
+  lang=localStorage.getItem('fl_lang')||'ar';
+  stars=+(localStorage.getItem('fl_stars')||0);
+  earned=JSON.parse(localStorage.getItem('fl_badges')||'{}');
+  awarded=JSON.parse(localStorage.getItem('fl_aw')||'{}');
+}catch(e){}
+function save(){try{localStorage.setItem('fl_lang',lang);localStorage.setItem('fl_stars',stars);localStorage.setItem('fl_badges',JSON.stringify(earned));localStorage.setItem('fl_aw',JSON.stringify(awarded));}catch(e){}}
+const L=o=>o==null?'':(typeof o==='string'?o:(o[lang]??o.en));
+const O=o=>o[lang==='ar'?'en':'ar']; // other language
+const $=id=>document.getElementById(id);
+
+/* images that exist (add new ones here when they arrive) */
+function imgSrc(k){return (window.IMGDATA&&IMGDATA[k])||('img/'+k+'.jpg');}
+const IMGS=new Set(['p1','p2','p3','p4','p5','p6','p7','p8','p9',
+ 's2-1','s2-2','s2-3','s3-1','s3-2','s3-3','s4-1','s4-2','s4-3','s5-1','s5-2','s5-3','s6-1','s6-2','s6-3',
+ 's2-4','s3-4','s3-5','s4-4','s5-4','s6-4','f2']);
+
+/* =========================================================
+   UI TEXT
+   ========================================================= */
+const T={
+  brand:{en:'Friendship <span>Lab</span>',ar:'مختبر <span>الصداقة</span>'},
+  langBtn:{en:'عربي',ar:'English'},
+  heroTitle:{en:'Be <em>strong</em>, be <em>kind</em>!',ar:'كن <em>قويًا</em>، وكن <em>لطيفًا</em>!'},
+  heroSub:{en:'Stories, games and skills to understand feelings, make friends and stand up to bullying.',ar:'قصص وألعاب ومهارات لتفهم مشاعرك، وتكوّن صداقات، وتواجه التنمر.'},
+  stories:{en:'Stories',ar:'القصص'}, storiesSub:{en:'6 illustrated stories with choices',ar:'6 قصص مصوّرة تختار فيها ماذا يحدث'},
+  games:{en:'Games',ar:'الألعاب'}, gamesSub:{en:'Play, think and win stars',ar:'العب وفكّر واجمع النجوم'},
+  tools:{en:'Skills Toolbox',ar:'صندوق المهارات'}, toolsSub:{en:'Calm down, brave words, I-messages and more',ar:'التهدئة، والكلمات الشجاعة، ورسائل «أنا» وأكثر'},
+  badges:{en:'My Badges',ar:'أوسمتي'}, badgesSub:{en:'Collect them all!',ar:'اجمعها كلها!'},
+  book:{en:'Book Corner',ar:'ركن الكتاب'}, bookSub:{en:'About Real Friends + talk questions',ar:'عن كتاب Real Friends وأسئلة للنقاش'},
+  page:{en:'Page',ar:'صفحة'}, of:{en:'of',ar:'من'},
+  listen:{en:'🔊 Listen',ar:'🔊 استماع'}, showOther:{en:'🌍 عربي',ar:'🌍 English'},
+  next:{en:'Next →',ar:'التالي ←'}, back:{en:'← Back',ar:'→ السابق'}, finish:{en:'Finish ✓',ar:'إنهاء ✓'},
+  soon:{en:'Picture coming soon',ar:'الصورة قريبًا'},
+  learned:{en:'🧰 Skill I learned',ar:'🧰 المهارة التي تعلمتها'},
+  think:{en:'🧠 Think and talk',ar:'🧠 فكّر وتحدّث'},
+  thinkSub:{en:'Talk about these with Mom or Dad:',ar:'تحدث عنها مع ماما أو بابا:'},
+  newBadge:{en:'New badge!',ar:'وسام جديد!'},
+  moreStories:{en:'📚 More stories',ar:'📚 قصص أخرى'},
+  correct:{en:'Correct!',ar:'إجابة صحيحة!'}, tryAgain:{en:'Play again ↻',ar:'العب مرة أخرى ↻'},
+  great:{en:'Amazing work!',ar:'عمل رائع!'}, good:{en:'Good try! Play again to win the badge.',ar:'محاولة جيدة! العب مرة أخرى لتفوز بالوسام.'},
+  allGames:{en:'🎮 All games',ar:'🎮 كل الألعاب'}, allTools:{en:'🧰 All tools',ar:'🧰 كل الأدوات'},
+  moves:{en:'Moves',ar:'المحاولات'},
+  real:{en:'Real friend',ar:'صديق حقيقي'}, notReal:{en:'Not a friend',ar:'ليس تصرف صديق'},
+  ok:{en:'OK',ar:'مقبول'}, notOk:{en:'Not OK',ar:'غير مقبول'},
+  start:{en:'Start ▶',ar:'ابدأ ▶'}, stop:{en:'Stop ■',ar:'توقف ■'},
+  breatheIn:{en:'Breathe in… 🌬️',ar:'خذ نفسًا… 🌬️'}, breatheOut:{en:'Breathe out… 💨',ar:'أخرج النفس… 💨'},
+  breathDone:{en:'Well done! You are calm 😌',ar:'أحسنت! أنت الآن هادئ 😌'},
+  hearIt:{en:'🔊 Hear it',ar:'🔊 استمع'},
+  noVoice:{en:'🔇 No voice for this language on this device',ar:'🔇 لا يوجد صوت لهذه اللغة على هذا الجهاز'}
+};
+
+/* =========================================================
+   FEELINGS
+   ========================================================= */
+const FEEL={
+  happy:{e:'😊',en:'happy',ar:'سعيد'}, sad:{e:'😢',en:'sad',ar:'حزين'}, angry:{e:'😠',en:'angry',ar:'غاضب'},
+  scared:{e:'😨',en:'scared',ar:'خائف'}, embarrassed:{e:'😳',en:'embarrassed',ar:'محرَج'}, proud:{e:'🥇',en:'proud',ar:'فخور'},
+  jealous:{e:'😒',en:'jealous',ar:'غيور'}, nervous:{e:'😬',en:'nervous',ar:'متوتر'}, lonely:{e:'🥺',en:'lonely',ar:'وحيد'},
+  shy:{e:'🙈',en:'shy',ar:'خجول'}, bored:{e:'🥱',en:'bored',ar:'ملول'}, excited:{e:'🤩',en:'excited',ar:'متحمس'},
+  surprised:{e:'😮',en:'surprised',ar:'متفاجئ'}, calm:{e:'😌',en:'calm',ar:'هادئ'}
+};
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+const BADGES={
+  s1:{e:'🦸',en:'Upstander',ar:'وسام نصرة الآخرين'},
+  s2:{e:'🌋',en:'Feelings Tamer',ar:'وسام تهدئة المشاعر'},
+  s3:{e:'🫧',en:'Boundary Boss',ar:'وسام الحدود'},
+  s4:{e:'🦁',en:'Brave Voice',ar:'وسام الصوت الشجاع'},
+  s5:{e:'💞',en:'Kind Heart',ar:'وسام القلب الطيب'},
+  s6:{e:'📱',en:'Safe Online',ar:'وسام الأمان على الإنترنت'},
+  feel:{e:'🔍',en:'Feelings Detective',ar:'وسام محقق المشاعر'},
+  mmm:{e:'💪',en:'Strong & Kind',ar:'وسام القوي اللطيف'},
+  okno:{e:'🛡️',en:'Safety Smart',ar:'وسام الأمان'},
+  friend:{e:'💚',en:'True Friend',ar:'وسام الصديق الحقيقي'},
+  thought:{e:'🧠',en:'Thought Detective',ar:'وسام محقق الأفكار'},
+  memory:{e:'🃏',en:'Memory Star',ar:'وسام الذاكرة'},
+  journal:{e:'📔',en:'Feelings Writer',ar:'وسام كاتب المشاعر'},
+  roleplay:{e:'🎤',en:'Brave Speaker',ar:'وسام المتحدث الشجاع'},
+  finish:{e:'✍️',en:'Story Maker',ar:'وسام صانع القصص'},
+  reader:{e:'🎙️',en:'Reading Star',ar:'وسام القراءة بصوت عالٍ'}
+};
+function earn(id){if(earned[id])return false;earned[id]=1;save();return true;}
+
+/* =========================================================
+   STORIES
+   ========================================================= */
+const S=(en,ar)=>({en,ar});
+const STORIES=[
+{id:1,color:'#f3b93a',emoji:'🎨',badge:'s1',
+ title:S("Lina and the Lunch Table","لينا وطاولة الغداء"),
+ tag:S("Feeling left out · Upstanders","الشعور بالاستبعاد · نصرة الآخرين"),
+ skill:S("Be an upstander: stand with the person who is hurt, say “Stop!”, and get help from an adult. A real friend includes you, listens to you and is kind.","كن ناصرًا لغيرك: قف بجانب من يتأذى، وقل «توقف!»، واطلب المساعدة من شخص كبير. والصديق الحقيقي يُشركك ويسمعك ويكون لطيفًا معك."),
+ think:[S("Have you ever felt left out like Lina? What did you do?","هل شعرت يومًا بالاستبعاد مثل لينا؟ ماذا فعلت؟"),S("Why do you think Sara left Lina alone at recess?","لماذا تظن أن سارة تركت لينا وحدها في الفسحة؟"),S("What would you do if you saw someone laughing at a friend's drawing?","ماذا كنت ستفعل لو رأيت أحدًا يضحك على رسمة صديقك؟")],
+ scenes:[
+  {img:'p1',ph:'🎒🎨',t:S("This is Lina. Today is the first day of school. Lina loves to draw. She holds her sketchbook and thinks: <q>“I want a real friend.”</q>","هذه لينا. اليوم أول يوم في المدرسة. لينا تحب الرسم. تمسك كراسة الرسم وتفكر: <q>«أريد صديقة حقيقية».</q>")},
+  {img:'p2',ph:'🖍️😊',t:S("In class, Lina meets Sara. Sara shares her crayons. They draw and laugh together. <q>“You are my best friend!”</q> says Sara.","في الفصل تتعرف لينا على سارة. سارة تشاركها ألوانها، وترسمان وتضحكان معًا. تقول سارة: <q>«أنتِ أعز صديقاتي!»</q>")},
+  {img:'p3',ph:'👭😔',t:S("At recess, Sara plays with a new group: Bella and Maya. They laugh and whisper. Nobody says <q>“Come and play!”</q> Lina feels left out.","في الفسحة تلعب سارة مع مجموعة جديدة: بيلا ومايا. يضحكن ويتهامسن، ولا أحد يقول للينا: <q>«تعالي العبي!»</q> تشعر لينا بأنها مُستبعَدة."),
+   choice:{q:S("What can Lina do?","ماذا تستطيع لينا أن تفعل؟"),opts:[
+    {t:S("Hide alone and cry all day.","تختبئ وحدها وتبكي طوال اليوم."),ok:0,fb:S("Feeling sad is okay, but hiding all day won't help Lina.","الحزن شعور طبيعي، لكن الاختباء طوال اليوم لن يساعد لينا.")},
+    {t:S("Walk to them and ask kindly: “Can I play too?”","تذهب إليهن وتسأل بلطف: «هل يمكنني اللعب معكن؟»"),ok:1,fb:S("Great choice! Asking kindly is brave. 🌟","اختيار رائع! السؤال بلطف شجاعة. 🌟")},
+    {t:S("Say something mean to Sara.","تقول كلامًا جارحًا لسارة."),ok:0,fb:S("Being mean back makes everyone feel worse.","الرد بكلام جارح يجعل الجميع يشعر بالأسوأ.")}]}},
+  {img:'p4',ph:'🍱🥺',t:S("At lunch, Lina sits alone. Her tummy feels tight. <q>“Maybe nobody likes me,”</q> she thinks.","في وقت الغداء تجلس لينا وحدها. تشعر بضيق في بطنها، وتفكر: <q>«ربما لا أحد يحبني».</q>"),
+   choice:{q:S("Is it true that nobody likes Lina?","هل صحيح أن لا أحد يحب لينا؟"),opts:[
+    {t:S("Yes, it is true.","نعم، هذا صحيح."),ok:0,fb:S("Not really! Lina feels sad, but a feeling is not always a fact.","ليس صحيحًا! لينا حزينة، لكن الشعور ليس دائمًا حقيقة.")},
+    {t:S("No. She feels sad, but feelings are not facts. Her family loves her, and new friends can come.","لا. هي حزينة، لكن المشاعر ليست حقائق. عائلتها تحبها، ويمكن أن تأتي صداقات جديدة."),ok:1,fb:S("Yes! Sad thoughts can trick us. 🌟","صحيح! الأفكار الحزينة قد تخدعنا. 🌟")}]}},
+  {img:'p5',ph:'👵💛',t:S("At home, Lina tells Grandma everything. Grandma listens and holds her hand. <q>“A real friend makes you feel safe, not small,”</q> says Grandma. <q>“Look for someone who likes what you like.”</q>","في البيت تحكي لينا لجدتها كل شيء. تسمعها الجدة وتمسك يدها وتقول: <q>«الصديق الحقيقي يجعلكِ تشعرين بالأمان، لا بأنكِ صغيرة. ابحثي عن شخص يحب ما تحبينه».</q>")},
+  {img:'p6',ph:'📚✏️',t:S("In the library, Lina sees Maya drawing alone. Bella said Maya's drawings are silly, so Maya left the group. Lina shows Maya her sketchbook. <q>“You draw too?”</q> says Maya, with a shy smile.","في المكتبة ترى لينا مايا ترسم وحدها. بيلا قالت إن رسومات مايا سخيفة، فتركت مايا المجموعة. تُري لينا مايا كراستها، فتقول مايا بابتسامة خجولة: <q>«أنتِ ترسمين أيضًا؟»</q>")},
+  {img:'p7',ph:'😏🖼️',t:S("The next day, Bella takes Maya's drawing. She holds it up and laughs: <q>“Look at this baby picture!”</q> Some kids giggle. Maya feels very sad. Lina is scared.","في اليوم التالي تأخذ بيلا رسمة مايا وترفعها وتضحك: <q>«انظروا لرسمة الأطفال هذه!»</q> بعض الأطفال يضحكون. مايا حزينة جدًا، ولينا خائفة."),
+   choice:{q:S("What should Lina do?","ماذا يجب أن تفعل لينا؟"),opts:[
+    {t:S("Laugh with the other kids.","تضحك مع باقي الأطفال."),ok:0,fb:S("Laughing makes the bullying bigger, and Maya feels even worse.","الضحك يكبّر التنمر، ويجعل مايا تشعر بحزن أكبر.")},
+    {t:S("Walk away and say nothing.","تبتعد ولا تقول شيئًا."),ok:0,fb:S("Lina is safe, but Maya is still alone. That is a bystander — someone who only watches.","لينا في أمان، لكن مايا ما زالت وحدها. هذا «متفرّج»: شخص يشاهد فقط.")},
+    {t:S("Stand next to Maya, say “Stop!”, and get the teacher.","تقف بجانب مايا، وتقول «توقفي!»، وتنادي المعلمة."),ok:1,fb:S("Wow! That is an upstander — someone who helps. 🦸","رائع! هذا «ناصر»: شخص يساعد غيره. 🦸")}]}},
+  {img:'p8',ph:'✋🧑‍🏫',t:S("Lina stands next to Maya. <q>“Stop! That is not kind,”</q> she says. Her voice shakes, but she is brave. Ms. Noor, the teacher, comes: <q>“Bella, please give the drawing back.”</q>","تقف لينا بجانب مايا وتقول: <q>«توقفي! هذا ليس لطيفًا».</q> صوتها يرتجف لكنها شجاعة. تأتي المعلمة مس نور وتقول: <q>«بيلا، أعيدي الرسمة من فضلك».</q>")},
+  {img:'p9',ph:'👧👧👧🎨',t:S("After school, Sara says sorry: <q>“I left you out. That was not fair.”</q> Now Lina, Sara and Maya make a comic together. A real friend includes you, listens to you, and is kind — even when it is hard.","بعد المدرسة تعتذر سارة: <q>«تركتكِ وحدكِ، وهذا لم يكن عدلًا».</q> والآن ترسم لينا وسارة ومايا قصة مصوّرة معًا. الصديق الحقيقي يُشركك ويسمعك ويكون لطيفًا، حتى في الأوقات الصعبة.")}
+ ]},
+{id:2,color:'#e8774a',emoji:'🌋',badge:'s2',
+ title:S("Omar's Volcano","بركان عمر"),
+ tag:S("Understanding & calming big feelings","فهم المشاعر الكبيرة وتهدئتها"),
+ skill:S("1) Notice your body clues. 2) Name your feeling. 3) Calm down with balloon breaths. 4) Then talk: “I feel… because…”. All feelings are okay — what we do with them is our choice.","١) لاحظ إشارات جسمك. ٢) سمِّ شعورك. ٣) اهدأ بأنفاس البالون. ٤) ثم تكلّم: «أشعر بـ... لأن...». كل المشاعر مقبولة، أما ما نفعله بها فهو اختيارنا."),
+ think:[S("What makes you feel like a volcano?","ما الذي يجعلك تشعر وكأنك بركان؟"),S("Where in your body do you feel anger? Where do you feel fear?","أين تشعر بالغضب في جسمك؟ وأين تشعر بالخوف؟"),S("What helps you calm down?","ما الذي يساعدك على الهدوء؟")],
+ scenes:[
+  {img:'s2-1',ph:'⚽😠',t:S("Omar loves football. Today his team loses at recess. His face gets hot. His hands make fists. Omar feels like a volcano!","عمر يحب كرة القدم. اليوم خسر فريقه في الفسحة. أصبح وجهه ساخنًا، وانقبضت يداه. يشعر عمر وكأنه بركان!"),
+   choice:{q:S("What is Omar feeling?","بماذا يشعر عمر؟"),opts:[
+    {t:S("😊 Happy","😊 سعيد"),ok:0,fb:S("Look at the clues: a hot face and fists don't show happiness.","انظر إلى الإشارات: الوجه الساخن واليدان المنقبضتان لا تدل على السعادة.")},
+    {t:S("😠 Angry","😠 غاضب"),ok:1,fb:S("Yes! A hot face and fists are body clues of anger.","صحيح! الوجه الساخن واليدان المنقبضتان إشارات جسدية للغضب.")},
+    {t:S("🥱 Sleepy","🥱 نعسان"),ok:0,fb:S("Not sleepy! His body is full of energy.","ليس نعسانًا! جسمه مليء بالطاقة.")}]}},
+  {img:'s2-1',ph:'😤💥',t:S("<q>“It's not fair!”</q> Omar shouts. He wants to kick the ball hard at Ziad.","يصرخ عمر: <q>«هذا ليس عدلًا!»</q> ويريد أن يركل الكرة بقوة نحو زياد."),
+   choice:{q:S("What should Omar do first?","ماذا يجب أن يفعل عمر أولًا؟"),opts:[
+    {t:S("Kick the ball hard at Ziad.","يركل الكرة بقوة نحو زياد."),ok:0,fb:S("Someone could get hurt, and Omar would feel worse.","قد يتأذى أحد، وسيشعر عمر بالأسوأ.")},
+    {t:S("Stop and take 3 slow balloon breaths.","يتوقف ويأخذ 3 أنفاس بطيئة مثل نفخ البالون."),ok:1,fb:S("Great! First calm your body, then think.","رائع! أولًا هدّئ جسمك، ثم فكّر.")},
+    {t:S("Run away and hide.","يهرب ويختبئ."),ok:0,fb:S("Hiding doesn't help Omar understand his feeling.","الاختباء لا يساعد عمر على فهم شعوره.")}]}},
+  {img:'s2-2',ph:'🎈🌬️',t:S("Omar stops. He breathes in slowly, like filling a big balloon… and breathes out slowly. One, two, three. The volcano gets smaller. Now Omar can think.","يتوقف عمر. يأخذ نفسًا بطيئًا كأنه ينفخ بالونًا كبيرًا… ثم يخرجه ببطء. واحد، اثنان، ثلاثة. البركان يصغر، والآن يستطيع عمر أن يفكر.")},
+  {img:'s2-4',fb:'s2-2',ph:'🗣️😔',t:S("Omar says: <q>“I feel angry because we lost. I need a minute.”</q> Ziad looks down and says quietly: <q>“I feel bad when we lose too.”</q>","يقول عمر: <q>«أشعر بالغضب لأننا خسرنا، أحتاج دقيقة».</q> ينظر زياد إلى الأرض ويقول بصوت هادئ: <q>«وأنا أيضًا أشعر بالضيق عندما نخسر».</q>"),
+   choice:{q:S("Look at Ziad. How does he feel?","انظر إلى زياد. بماذا يشعر؟"),opts:[
+    {t:S("😞 Disappointed","😞 محبَط"),ok:1,fb:S("Yes! Eyes down and a quiet voice show he is disappointed too. Other people have feelings like us.","صحيح! النظر إلى الأرض والصوت الهادئ يدلان على أنه محبط أيضًا. الآخرون لديهم مشاعر مثلنا.")},
+    {t:S("🤩 Excited","🤩 متحمس"),ok:0,fb:S("Look again: his eyes are down and his voice is quiet.","انظر مرة أخرى: عيناه إلى الأرض وصوته هادئ.")},
+    {t:S("😠 Angry at Omar","😠 غاضب من عمر"),ok:0,fb:S("Ziad isn't angry at Omar — he is sad about losing.","زياد ليس غاضبًا من عمر، بل حزين بسبب الخسارة.")}]}},
+  {img:'s2-3',ph:'🤝⚽',t:S("Omar and Ziad shake hands. <q>“Let's practice together tomorrow!”</q> says Omar. Feelings are okay. What we do with them is our choice.","يتصافح عمر وزياد. يقول عمر: <q>«لنتدرب معًا غدًا!»</q> كل المشاعر مقبولة، لكن ما نفعله بها هو اختيارنا.")}
+ ]},
+{id:3,color:'#5fb3c9',emoji:'🫧',badge:'s3',
+ title:S("Nour's Invisible Bubble","فقاعة نور الخفية"),
+ tag:S("Setting boundaries · Saying no","وضع الحدود · قول «لا»"),
+ skill:S("Set boundaries: say what you want with a strong, kind voice (“Please ask me first.” “No, I don't want that.”). Listen to your warning feeling. If someone doesn't stop, tell a trusted adult. Your body belongs to you.","ضع حدودك: قل ما تريده بصوت قوي ولطيف («استأذن مني أولًا من فضلك»، «لا، لا أريد ذلك»). انتبه لشعور التحذير داخلك. وإذا لم يتوقف أحد، فأخبر شخصًا كبيرًا تثق به. جسمك ملكك."),
+ think:[S("What is inside your bubble? What is okay for you and what is not?","ما الذي داخل فقاعتك؟ ما المقبول لك وما غير المقبول؟"),S("Is it hard for you to say “no”? Why?","هل يصعب عليك أن تقول «لا»؟ لماذا؟"),S("Who are the trusted adults you can tell?","من هم الكبار الذين تثق بهم وتستطيع أن تحكي لهم؟")],
+ scenes:[
+  {img:'s3-1',ph:'🫧👧',t:S("Mom tells Nour: <q>“Imagine an invisible bubble around you. It is your space. You choose who comes in and what is okay for you.”</q>","تقول ماما لنور: <q>«تخيّلي فقاعة خفية حولك. هذه مساحتك، وأنتِ من تختارين من يدخلها وما المقبول بالنسبة لك».</q>")},
+  {img:'s3-4',fb:'s3-1',ph:'✏️😣',t:S("Every day, Karim takes Nour's colored pencils without asking. Nour feels annoyed, but she says nothing.","كل يوم يأخذ كريم ألوان نور دون أن يستأذن. تشعر نور بالضيق، لكنها لا تقول شيئًا."),
+   choice:{q:S("What can Nour say?","ماذا تستطيع نور أن تقول؟"),opts:[
+    {t:S("“Fine… take them all.”","«حسنًا… خذها كلها».") ,ok:0,fb:S("That's the 🐭 Mouse way — too quiet. Karim won't know it bothers Nour.","هذه طريقة 🐭 الفأر: هادئة أكثر من اللازم. كريم لن يعرف أن هذا يضايق نور.")},
+    {t:S("“Give them back, you thief!”","«أرجعها يا لص!»"),ok:0,fb:S("That's the 👹 Monster way — too mean. Mean words start a fight.","هذه طريقة 👹 الوحش: جارحة أكثر من اللازم. الكلام الجارح يبدأ شجارًا.")},
+    {t:S("“Karim, please ask me before you take my pencils.”","«يا كريم، من فضلك استأذن مني قبل أن تأخذ ألواني»."),ok:1,fb:S("That's the 🦁 strong and kind way!","هذه هي الطريقة 🦁 القوية واللطيفة!")}]}},
+  {img:'s3-2',ph:'📓😟',t:S("Nour's friend Laila says: <q>“Let me copy your homework, or I won't be your friend!”</q> Nour's tummy feels funny. That funny feeling is a warning signal.","تقول صديقتها ليلى: <q>«دعيني أنقل واجبك، وإلا فلن أكون صديقتك!»</q> تشعر نور بشيء غريب في بطنها. هذا الشعور الغريب إشارة تحذير."),
+   choice:{q:S("What should Nour do?","ماذا يجب أن تفعل نور؟"),opts:[
+    {t:S("“Okay… here.”","«حسنًا… تفضّلي»."),ok:0,fb:S("Nour would do something she feels is wrong, just to keep Laila happy.","ستفعل نور شيئًا تشعر أنه خطأ لمجرد إرضاء ليلى.")},
+    {t:S("“No. I can help you understand it, but you can't copy.”","«لا. أستطيع أن أساعدك لتفهميه، لكن لن تنقليه»."),ok:1,fb:S("Yes! Nour says no and still offers kind help. A real friend doesn't use threats.","صحيح! قالت نور «لا» وعرضت مساعدة لطيفة. الصديق الحقيقي لا يهدد.")},
+    {t:S("Cry and run away.","تبكي وتهرب."),ok:0,fb:S("Nour can stay and use her strong voice.","تستطيع نور أن تبقى وتستخدم صوتها القوي.")}]}},
+  {img:'s3-5',ph:'🤭✋',t:S("At a family visit, Nour's cousin tickles her. She laughs at first, then says: <q>“Stop, please!”</q> But he doesn't stop.","في زيارة عائلية يدغدغها ابن عمها. تضحك في البداية ثم تقول: <q>«توقف من فضلك!»</q> لكنه لا يتوقف."),
+   choice:{q:S("What should Nour do now?","ماذا يجب أن تفعل نور الآن؟"),opts:[
+    {t:S("Keep laughing so he isn't upset.","تستمر في الضحك حتى لا يزعل."),ok:0,fb:S("Nour's feelings matter too. When she says stop, he must stop.","مشاعر نور مهمة أيضًا. عندما تقول «توقف» يجب أن يتوقف.")},
+    {t:S("Say “STOP!” in a loud strong voice and go to Mom.","تقول «توقف!» بصوت عالٍ وقوي، وتذهب إلى ماما."),ok:1,fb:S("Exactly! Your body belongs to you. If someone doesn't stop, tell an adult.","تمامًا! جسمك ملكك. وإذا لم يتوقف أحد، فأخبر شخصًا كبيرًا.")},
+    {t:S("Stay quiet.","تسكت."),ok:0,fb:S("Staying quiet won't make it stop. Use your strong voice.","السكوت لن يوقفه. استخدمي صوتك القوي.")}]}},
+  {img:'s3-3',ph:'🦸‍♀️🫧',t:S("Nour feels proud. <q>“Saying no doesn't make me mean,”</q> she thinks. <q>“It keeps me safe, and it teaches others how to treat me.”</q>","تشعر نور بالفخر وتفكر: <q>«عندما أقول لا، فهذا لا يجعلني سيئة، بل يحميني ويعلّم الآخرين كيف يعاملونني».</q>")}
+ ]},
+{id:4,color:'#3f6fb5',emoji:'🦁',badge:'s4',
+ title:S("Yusuf Stands Tall","يوسف يقف شامخًا"),
+ tag:S("Facing name-calling · Brave body & voice","مواجهة الألقاب المؤذية · الجسم والصوت الشجاع"),
+ skill:S("Use your Brave Body (stand tall, look at the eyes) and Brave Voice (calm and strong). Say it once — “My name is ___. Stop it.” — then walk away. Report bullying to an adult: reporting is not tattling.","استخدم جسمك الشجاع (قف مستقيمًا، وانظر في العينين) وصوتك الشجاع (هادئ وقوي). قلها مرة واحدة: «اسمي ___. توقف». ثم ابتعد. وأبلغ شخصًا كبيرًا عن التنمر، فالإبلاغ ليس «فتنة»."),
+ think:[S("Show your Brave Body! How do you stand? How do you look?","أرِنا جسمك الشجاع! كيف تقف؟ وكيف تنظر؟"),S("Why do you think some kids call others names?","لماذا تظن أن بعض الأطفال يطلقون ألقابًا مؤذية على غيرهم؟"),S("What is the difference between tattling and reporting?","ما الفرق بين «الفتنة» والإبلاغ؟")],
+ scenes:[
+  {img:'s4-1',ph:'👓😞',t:S("Yusuf is new at school. He wears big round glasses. Every day, Tarek calls him <q>“Four Eyes”</q>. Yusuf looks at the floor, and his shoulders drop.","يوسف تلميذ جديد في المدرسة، ويلبس نظارة كبيرة مستديرة. كل يوم يناديه طارق: <q>«أبو أربع عيون»</q>. ينظر يوسف إلى الأرض وتنخفض كتفاه."),
+   choice:{q:S("How does Yusuf feel?","بماذا يشعر يوسف؟"),opts:[
+    {t:S("😳 Hurt and embarrassed","😳 مجروح ومحرَج"),ok:1,fb:S("Yes. Looking down and dropped shoulders show he feels hurt.","صحيح. النظر إلى الأرض والكتفان المنخفضتان تدل على أنه مجروح.")},
+    {t:S("🥇 Proud","🥇 فخور"),ok:0,fb:S("Look at his body: proud people stand tall.","انظر إلى جسمه: الفخور يقف مستقيمًا.")},
+    {t:S("🥱 Bored","🥱 ملول"),ok:0,fb:S("Name-calling hurts. He isn't bored.","الألقاب المؤذية تجرح. هو ليس ملولًا.")}]}},
+  {img:'s4-2',ph:'🪞💪',t:S("Yusuf's big brother, Ali, teaches him the <b>Brave Body</b>: stand tall, shoulders back, look at the eyes, and use a calm, strong voice. They practice in front of the mirror.","علّمه أخوه الكبير علي <b>«الجسم الشجاع»</b>: قف مستقيمًا، وارفع كتفيك، وانظر في العينين، وتكلّم بصوت هادئ وقوي. وتدرّبا معًا أمام المرآة.")},
+  {img:'s4-1',ph:'😏👓',t:S("The next day, Tarek laughs: <q>“Hey, Four Eyes!”</q>","في اليوم التالي يضحك طارق: <q>«أهلًا يا أبو أربع عيون!»</q>"),
+   choice:{q:S("What should Yusuf do?","ماذا يجب أن يفعل يوسف؟"),opts:[
+    {t:S("Look down and whisper: “please…”","ينظر إلى الأرض ويهمس: «من فضلك…»"),ok:0,fb:S("That's the 🐭 Mouse way. Tarek may keep going.","هذه طريقة 🐭 الفأر. قد يستمر طارق.")},
+    {t:S("Shout “Shut up, you idiot!” and push him.","يصرخ «اسكت يا غبي!» ويدفعه."),ok:0,fb:S("That's the 👹 Monster way. Yusuf could get in trouble too.","هذه طريقة 👹 الوحش. قد يقع يوسف في مشكلة هو أيضًا.")},
+    {t:S("Stand tall: “My name is Yusuf. Stop it.” Then walk to his friends.","يقف مستقيمًا: «اسمي يوسف. توقف». ثم يذهب إلى أصدقائه."),ok:1,fb:S("That's the 🦁 Brave way! Short, calm and strong.","هذه هي الطريقة 🦁 الشجاعة! قصيرة وهادئة وقوية.")}]}},
+  {img:'s4-4',fb:'s4-1',ph:'🧑‍🏫📢',t:S("Tarek tries again. Yusuf says the same words calmly, like a broken record. Then he tells Mr. Hassan, the teacher.","يحاول طارق مرة أخرى، فيكرر يوسف نفس الكلمات بهدوء. ثم يخبر الأستاذ حسن."),
+   choice:{q:S("Is telling the teacher “tattling”?","هل إخبار المعلم يُعتبر «فتنة»؟"),opts:[
+    {t:S("Yes, Yusuf is a tattletale.","نعم، يوسف «فتّان»."),ok:0,fb:S("No! Tattling is trying to get someone in trouble over small things. Reporting is getting help when someone is hurt.","لا! «الفتنة» هي محاولة إيقاع أحد في مشكلة بسبب أشياء صغيرة. أما الإبلاغ فهو طلب المساعدة عندما يتأذى أحد.")},
+    {t:S("No. He is reporting to stay safe.","لا. هو يُبلغ ليبقى في أمان."),ok:1,fb:S("Right! Reporting bullying is smart and brave.","صحيح! الإبلاغ عن التنمر تصرف ذكي وشجاع.")}]}},
+  {img:'s4-3',ph:'👓😄',t:S("Mr. Hassan talks to Tarek. The next week, Tarek says: <q>“Sorry, Yusuf. Your glasses are cool — like a scientist!”</q> Now they play together. Yusuf smiles. What others say about you is not who you are.","يتحدث الأستاذ حسن مع طارق. وفي الأسبوع التالي يقول طارق: <q>«آسف يا يوسف. نظارتك رائعة، كأنك عالِم!»</q> والآن يلعبون معًا. يبتسم يوسف. ما يقوله الآخرون عنك لا يحدد من أنت.")}
+ ]},
+{id:5,color:'#e88aa7',emoji:'💞',badge:'s5',
+ title:S("Hana and the Quiet New Girl","هَنا والبنت الجديدة الهادئة"),
+ tag:S("Reading others · Empathy · Starting a chat","فهم الآخرين · التعاطف · بدء الحديث"),
+ skill:S("Read faces and bodies. Think before you judge — there can be many reasons. Start a chat: say hi, say your name, ask a question. Listen with your eyes, ears and heart.","اقرأ الوجوه وحركات الجسم. فكّر قبل أن تحكم، فقد تكون هناك أسباب كثيرة. ابدأ الحديث: ألقِ التحية، وقل اسمك، واسأل سؤالًا. واستمع بعينيك وأذنيك وقلبك."),
+ think:[S("Have you ever been new somewhere? How did you feel?","هل كنت جديدًا في مكان ما؟ بماذا شعرت؟"),S("What 3 questions can you ask to get to know someone?","ما ثلاثة أسئلة يمكنك أن تسألها لتتعرف على شخص؟"),S("Why is it wrong to judge someone quickly?","لماذا من الخطأ أن نحكم على شخص بسرعة؟")],
+ scenes:[
+  {img:'s5-1',ph:'🧳🤐',t:S("A new girl, Rosa, joins Hana's class. She came from another country. She doesn't talk and doesn't smile. Some kids whisper: <q>“She is rude.”</q>","انضمت بنت جديدة اسمها روزا إلى فصل هَنا. جاءت من بلد آخر. لا تتكلم ولا تبتسم. يتهامس بعض الأطفال: <q>«إنها قليلة الذوق».</q>"),
+   choice:{q:S("Why might Rosa be quiet?","لماذا قد تكون روزا هادئة؟"),opts:[
+    {t:S("She is rude.","لأنها قليلة الذوق."),ok:0,fb:S("Maybe not! We don't know yet. Think of other reasons.","ربما لا! نحن لا نعرف بعد. فكّر في أسباب أخرى.")},
+    {t:S("She may feel shy or scared, or she doesn't know the language yet.","ربما تشعر بالخجل أو الخوف، أو لا تعرف اللغة بعد."),ok:1,fb:S("Great thinking! There can be many reasons. Think before you judge.","تفكير رائع! قد تكون هناك أسباب كثيرة. فكّر قبل أن تحكم.")},
+    {t:S("She doesn't like anyone.","لأنها لا تحب أحدًا."),ok:0,fb:S("She just arrived — she doesn't know anyone yet!","لقد وصلت للتو، ولا تعرف أحدًا بعد!")}]}},
+  {img:'s5-1',ph:'👀🎒',t:S("Hana looks closely. Rosa's eyes are down. Her hands hold her bag tightly. Her feet don't move.","تنظر هَنا جيدًا: عينا روزا إلى الأسفل، ويداها تمسكان حقيبتها بقوة، وقدماها لا تتحركان."),
+   choice:{q:S("What do these clues tell Hana?","ماذا تخبر هذه الإشارات هَنا؟"),opts:[
+    {t:S("😬 Rosa feels nervous.","😬 روزا متوترة."),ok:1,fb:S("Yes! Face and body clues tell us how people feel, even without words.","صحيح! إشارات الوجه والجسم تخبرنا بمشاعر الناس حتى بدون كلام.")},
+    {t:S("😠 Rosa is angry.","😠 روزا غاضبة."),ok:0,fb:S("Angry people often frown and make fists. Rosa looks down and holds her bag.","الغاضب عادة يعقد حاجبيه ويقبض يديه. روزا تنظر للأسفل وتمسك حقيبتها.")},
+    {t:S("🤩 Rosa is excited.","🤩 روزا متحمسة."),ok:0,fb:S("Excited people smile and move a lot. Look again!","المتحمس يبتسم ويتحرك كثيرًا. انظر مرة أخرى!")}]}},
+  {img:'s5-2',ph:'👋🙂',t:S("Hana smiles and speaks slowly: <q>“Hi! I'm Hana. Do you want to sit with me?”</q> She points to the chair. Rosa nods.","تبتسم هَنا وتتكلم ببطء: <q>«مرحبًا! اسمي هَنا. هل تريدين الجلوس معي؟»</q> وتشير إلى الكرسي. تومئ روزا برأسها.")},
+  {img:'s5-4',fb:'s5-2',ph:'🐱💬',t:S("At recess, Hana asks: <q>“What do you like?”</q> Rosa says: <q>“Cats!”</q> Hana looks at her, nods, and asks: <q>“What is your cat's name?”</q>","في الفسحة تسألها هَنا: <q>«ماذا تحبين؟»</q> تقول روزا: <q>«القطط!»</q> تنظر إليها هَنا وتومئ وتسأل: <q>«ما اسم قطتك؟»</q>"),
+   choice:{q:S("Which one is good listening?","أيّها استماع جيد؟"),opts:[
+    {t:S("Look at her, nod, and ask more questions.","تنظر إليها، وتومئ، وتسأل أسئلة أخرى."),ok:1,fb:S("Yes! Listen with your eyes, ears and heart.","صحيح! استمع بعينيك وأذنيك وقلبك.")},
+    {t:S("Talk only about yourself.","تتكلم عن نفسها فقط."),ok:0,fb:S("A chat is like a ball game — you pass and you catch.","الحديث مثل لعبة الكرة: تمرر وتستقبل.")},
+    {t:S("Look away and play with something.","تنظر بعيدًا وتلعب بشيء."),ok:0,fb:S("Rosa may think Hana doesn't care.","قد تظن روزا أن هَنا لا تهتم.")}]}},
+  {img:'s5-3',ph:'📖🌍',t:S("Rosa teaches Hana a word in her language. Hana teaches Rosa words in Arabic. Now they are friends. Being kind to someone new can change their whole day.","تعلّم روزا هَنا كلمة بلغتها، وتعلّم هَنا روزا كلمات بالعربية. الآن أصبحتا صديقتين. لطفك مع شخص جديد قد يغيّر يومه كله.")}
+ ]},
+{id:6,color:'#8b6cc4',emoji:'📱',badge:'s6',
+ title:S("Adam and the Class Chat","آدم ومجموعة الفصل"),
+ tag:S("Online bullying · Being kind online","التنمر على الإنترنت · اللطف على الإنترنت"),
+ skill:S("Online: Stop (don't reply), Screenshot, Show an adult. Before you post, ask: Is it true? Is it kind? Is it needed? Behind every screen is a real person.","على الإنترنت: توقف (لا ترد)، والتقط صورة للشاشة، وأرِها لشخص كبير. وقبل أن تنشر اسأل: هل هو صحيح؟ هل هو لطيف؟ هل هو ضروري؟ خلف كل شاشة إنسان حقيقي."),
+ think:[S("Why can a mean message online feel even worse?","لماذا قد تكون الرسالة القاسية على الإنترنت أسوأ؟"),S("What are the 3 steps when you see bullying online?","ما الخطوات الثلاث عندما ترى تنمرًا على الإنترنت؟"),S("What 3 questions do you ask before you post?","ما الأسئلة الثلاثة التي تسألها قبل أن تنشر؟")],
+ scenes:[
+  {img:'s6-1',ph:'📱😂',t:S("Adam's class has a group chat. One day, someone posts a photo of Adam falling down in the playground. Many kids send 😂😂😂.","لفصل آدم مجموعة دردشة. وذات يوم نشر أحدهم صورة لآدم وهو يقع في الملعب، وأرسل كثير من الأطفال 😂😂😂."),
+   choice:{q:S("How does Adam feel?","بماذا يشعر آدم؟"),opts:[
+    {t:S("😳 Embarrassed and hurt","😳 محرَج ومجروح"),ok:1,fb:S("Yes. It hurts when people laugh at you, not with you.","صحيح. يؤلمنا أن يضحك الناس علينا، لا معنا.")},
+    {t:S("😊 Happy — it's just a joke","😊 سعيد، إنها مجرد مزحة"),ok:0,fb:S("A joke is only funny if everyone laughs, including the person in it.","المزحة تكون مضحكة فقط إذا ضحك الجميع، ومنهم صاحب الصورة.")}]}},
+  {img:'s6-1',ph:'⌨️😡',t:S("Adam wants to write mean words back. His fingers are on the keyboard…","يريد آدم أن يكتب ردًا قاسيًا. أصابعه على لوحة المفاتيح…"),
+   choice:{q:S("What should Adam do?","ماذا يجب أن يفعل آدم؟"),opts:[
+    {t:S("Write mean words back.","يكتب ردًا قاسيًا."),ok:0,fb:S("Mean replies make the fight bigger, and they stay online.","الردود القاسية تكبّر المشكلة، وتبقى على الإنترنت.")},
+    {t:S("Don't reply. Take a screenshot and show a parent.","لا يرد. يلتقط صورة للشاشة ويُريها لأحد والديه."),ok:1,fb:S("Perfect! Stop, Screenshot, Show an adult.","ممتاز! توقف، والتقط صورة، وأرِها لشخص كبير.")},
+    {t:S("Delete the app and tell nobody.","يحذف التطبيق ولا يخبر أحدًا."),ok:0,fb:S("Adam shouldn't carry this alone. Tell a trusted adult.","لا يجب أن يحمل آدم هذا وحده. أخبر شخصًا كبيرًا تثق به.")}]}},
+  {img:'s6-2',ph:'👨‍👦📱',t:S("Adam shows Dad. Dad hugs him: <q>“Thank you for telling me. You did the right thing.”</q> Together they tell the teacher.","يُري آدم الرسائل لبابا. يحضنه بابا ويقول: <q>«شكرًا لأنك أخبرتني، لقد فعلت الصواب».</q> ثم يخبران المعلمة معًا.")},
+  {img:'s6-4',ph:'👧💬',t:S("Lina is in the group too. She sees the photo and all the laughing faces.","لينا أيضًا في المجموعة. ترى الصورة وكل الوجوه الضاحكة."),
+   choice:{q:S("What can Lina do?","ماذا تستطيع لينا أن تفعل؟"),opts:[
+    {t:S("Send 😂 too, like everyone.","ترسل 😂 مثل الجميع."),ok:0,fb:S("Joining in makes Adam feel even worse.","المشاركة في الضحك تجعل آدم يشعر بالأسوأ.")},
+    {t:S("Write “This isn't kind. Please delete it.” and send Adam a kind message.","تكتب «هذا ليس لطيفًا، احذفوها من فضلكم»، وترسل لآدم رسالة لطيفة."),ok:1,fb:S("Lina is an upstander online! 🦸","لينا ناصرة لغيرها على الإنترنت! 🦸")},
+    {t:S("Ignore it.","تتجاهل الأمر."),ok:0,fb:S("Lina is safe, but Adam still feels alone. She can do more.","لينا في أمان، لكن آدم ما زال يشعر بالوحدة. تستطيع أن تفعل أكثر.")}]}},
+  {img:'s6-3',ph:'🧑‍🏫💻',t:S("The photo is deleted. The teacher talks to the class: <q>“Behind every screen there is a real person with real feelings.”</q> Adam feels better because people helped him.","حُذفت الصورة. وتحدثت المعلمة مع الفصل: <q>«خلف كل شاشة إنسان حقيقي له مشاعر حقيقية».</q> شعر آدم بتحسن لأن هناك من ساعده.")}
+ ]}
+];
+
+/* =========================================================
+   GAMES DATA
+   ========================================================= */
+const GAMES=[
+ {id:'feel',e:'🔍',title:S('Feelings Detective','محقق المشاعر'),sub:S('Read the clues. What is the feeling?','اقرأ الإشارات. ما الشعور؟')},
+ {id:'mmm',e:'💪',title:S('Mouse, Monster or Me?','فأر أم وحش أم أنا؟'),sub:S('Too quiet, too mean, or strong & kind?','هادئ جدًا، أم جارح، أم قوي ولطيف؟')},
+ {id:'okno',e:'🛡️',title:S('OK or Not OK?','مقبول أم غير مقبول؟'),sub:S('Boundaries and safety','الحدود والأمان')},
+ {id:'friend',e:'💚',title:S('Real Friend?','صديق حقيقي؟'),sub:S('What does a real friend do?','ماذا يفعل الصديق الحقيقي؟')},
+ {id:'thought',e:'🧠',title:S('Thought Detective','محقق الأفكار'),sub:S('Swap sad thoughts for helpful ones','استبدل الأفكار الحزينة بأفكار مفيدة')},
+ {id:'memory',e:'🃏',title:S('Feelings Memory','ذاكرة المشاعر'),sub:S('Match the face with the word','طابق الوجه مع الكلمة')}
+];
+const FEEL_Q=[
+ {t:S("Your friend gives you a surprise gift.","صديقك يعطيك هدية مفاجئة."),a:'happy',o:['happy','angry','scared','bored']},
+ {t:S("You lose your favorite toy.","ضاعت لعبتك المفضلة."),a:'sad',o:['proud','sad','excited','calm']},
+ {t:S("Someone breaks your drawing on purpose.","أحدهم يقطع رسمتك عن قصد."),a:'angry',o:['happy','bored','angry','shy']},
+ {t:S("You hear a loud noise in the dark.","تسمع صوتًا عاليًا في الظلام."),a:'scared',o:['scared','proud','happy','bored']},
+ {t:S("You fall down and everyone laughs.","تقع على الأرض ويضحك الجميع."),a:'embarrassed',o:['excited','embarrassed','calm','proud']},
+ {t:S("You finish a hard puzzle all by yourself.","أنهيت لغزًا صعبًا وحدك."),a:'proud',o:['sad','scared','proud','lonely']},
+ {t:S("Your best friend plays with a new girl all day, and you wish she played with you.","صديقتك المقربة تلعب طوال اليوم مع بنت جديدة، وتتمنى لو كانت تلعب معك."),a:'jealous',o:['jealous','calm','happy','bored']},
+ {t:S("Tomorrow is your first day in a new school.","غدًا أول يوم لك في مدرسة جديدة."),a:'nervous',o:['bored','nervous','angry','proud']},
+ {t:S("Nobody sits with you at lunch.","لا أحد يجلس معك في وقت الغداء."),a:'lonely',o:['excited','proud','lonely','surprised']},
+ {t:S("Clues: His face is red. His hands are fists. He stamps his feet.","إشارات: وجهه أحمر، ويداه منقبضتان، ويضرب الأرض بقدميه."),a:'angry',o:['calm','angry','shy','happy']},
+ {t:S("Clues: Her eyes look down. She hides behind her mom when she meets new people.","إشارات: عيناها إلى الأسفل، وتختبئ خلف أمها عندما تقابل أشخاصًا جددًا."),a:'shy',o:['shy','angry','excited','proud']},
+ {t:S("Clues: Her eyes are big, her mouth is open: “Oh!”","إشارات: عيناها واسعتان وفمها مفتوح: «أوه!»"),a:'surprised',o:['bored','surprised','sad','calm']}
+];
+const MMM=[
+ {t:S("Someone cuts in line. You say: “Excuse me, I was here first.”","أحدهم يتخطى دورك. تقول: «عفوًا، أنا كنت هنا أولًا»."),a:'me'},
+ {t:S("Someone cuts in line. You push him out of the line.","أحدهم يتخطى دورك. تدفعه خارج الطابور."),a:'monster'},
+ {t:S("Someone cuts in line. You say nothing and feel sad.","أحدهم يتخطى دورك. لا تقول شيئًا وتشعر بالحزن."),a:'mouse'},
+ {t:S("A kid calls you a name. You shout: “You're ugly!”","طفل يناديك بلقب مؤذٍ. تصرخ: «أنت قبيح!»"),a:'monster'},
+ {t:S("A kid calls you a name. You stand tall: “Stop. I don't like that.” and walk away.","طفل يناديك بلقب مؤذٍ. تقف مستقيمًا: «توقف، لا أحب هذا». ثم تبتعد."),a:'me'},
+ {t:S("A friend takes your ball. You cry and let him keep it.","صديقك يأخذ كرتك. تبكي وتتركها له."),a:'mouse'},
+ {t:S("A friend takes your ball. You say: “That's my ball. Please give it back.”","صديقك يأخذ كرتك. تقول: «هذه كرتي، أعدها من فضلك»."),a:'me'},
+ {t:S("A friend takes your ball. You grab it and shout: “Thief!”","صديقك يأخذ كرتك. تخطفها وتصرخ: «لص!»"),a:'monster'},
+ {t:S("Someone wants to copy your test. You whisper “okay” but you don't want to.","أحدهم يريد أن ينقل منك في الامتحان. تهمس «حسنًا» مع أنك لا تريد."),a:'mouse'},
+ {t:S("Someone wants to copy your test. You say: “No, I won't do that.”","أحدهم يريد أن ينقل منك في الامتحان. تقول: «لا، لن أفعل ذلك»."),a:'me'}
+];
+const MMM_TYPES={
+ mouse:{e:'🐭',n:S('Mouse','فأر'),d:S('too quiet','هادئ جدًا')},
+ monster:{e:'👹',n:S('Monster','وحش'),d:S('too mean','جارح')},
+ me:{e:'🦁',n:S('Me','أنا'),d:S('strong & kind','قوي ولطيف')}
+};
+const OKNO=[
+ {t:S("A friend asks: “Can I borrow your eraser?”","صديقك يسأل: «هل يمكنني استعارة ممحاتك؟»"),a:1,fb:S("Asking first respects your things.","الاستئذان أولًا احترام لأشيائك.")},
+ {t:S("Someone takes your snack every day without asking.","أحدهم يأخذ أكلك كل يوم دون أن يستأذن."),a:0,fb:S("Say: “Please ask me first.” If it continues, tell an adult.","قل: «استأذن مني أولًا من فضلك». وإذا استمر، أخبر شخصًا كبيرًا.")},
+ {t:S("Someone says: “Keep this secret from your parents, or else!”","أحدهم يقول: «لا تخبر والديك بهذا السر، وإلا…!»"),a:0,fb:S("Secrets with threats are unsafe secrets. Always tell a trusted adult.","السر الذي معه تهديد سرّ غير آمن. أخبر دائمًا شخصًا كبيرًا تثق به.")},
+ {t:S("Your family plans a surprise party for Grandma.","عائلتك تخطط لحفلة مفاجئة لجدتك."),a:1,fb:S("A happy surprise is a safe secret — everyone will know soon.","المفاجأة السعيدة سر آمن، وسيعرفه الجميع قريبًا.")},
+ {t:S("Someone keeps tickling you after you say “Stop!”","أحدهم يستمر في دغدغتك بعد أن تقول «توقف!»"),a:0,fb:S("“Stop” means stop. Your body belongs to you.","«توقف» تعني توقف. جسمك ملكك.")},
+ {t:S("Your friend says: “I don't want to play now.” You say: “Okay, maybe later!”","صديقك يقول: «لا أريد اللعب الآن». فتقول: «حسنًا، ربما لاحقًا!»"),a:1,fb:S("You respected your friend's boundary. 👏","لقد احترمت حدود صديقك. 👏")},
+ {t:S("A classmate says: “Do my homework or I'll tell everyone you're a baby.”","زميل يقول: «اكتب واجبي وإلا سأقول للجميع إنك طفل صغير»."),a:0,fb:S("That's a threat. Say no and tell an adult.","هذا تهديد. قل «لا» وأخبر شخصًا كبيرًا.")},
+ {t:S("Someone asks for a high-five. You say “No, thanks” and they say “Okay!”","أحدهم يطلب أن تصفق يدك بيده. تقول «لا، شكرًا» فيقول «حسنًا!»"),a:1,fb:S("You said no, and they respected it. Perfect!","قلت «لا» واحترمها. ممتاز!")},
+ {t:S("Someone you met online asks for your photo and home address.","شخص تعرفت عليه على الإنترنت يطلب صورتك وعنوان بيتك."),a:0,fb:S("Never share personal information online. Tell a parent right away.","لا تشارك معلوماتك الشخصية على الإنترنت أبدًا. أخبر أحد والديك فورًا.")},
+ {t:S("Your teacher asks you to sit in a different seat.","معلمتك تطلب منك الجلوس في مكان آخر."),a:1,fb:S("That's a normal request from a trusted adult.","هذا طلب عادي من شخص كبير موثوق.")}
+];
+const FRIEND=[
+ {t:S("She listens when I am sad.","تسمعني عندما أكون حزينًا."),a:1},
+ {t:S("“You can't sit with us!”","«لا يمكنك الجلوس معنا!»"),a:0},
+ {t:S("He shares his snack with me.","يشاركني أكله."),a:1},
+ {t:S("She laughs at my drawing in front of everyone.","تضحك على رسمتي أمام الجميع."),a:0},
+ {t:S("She says sorry when she makes a mistake.","تعتذر عندما تخطئ."),a:1},
+ {t:S("He tells my secret to the whole class.","يحكي سرّي للفصل كله."),a:0},
+ {t:S("“Come and play with us!”","«تعال العب معنا!»"),a:1},
+ {t:S("“I'm your friend only if you give me your toy.”","«سأكون صديقك فقط إذا أعطيتني لعبتك»."),a:0},
+ {t:S("She is happy when I win.","تفرح عندما أفوز."),a:1},
+ {t:S("They whisper, look at me, then laugh.","يتهامسون وينظرون إليّ ثم يضحكون."),a:0}
+];
+const THOUGHTS=[
+ {bad:S("“Nobody likes me.”","«لا أحد يحبني»."),o:[
+   S("“Some kids don't know me yet. I can say hi to one person today.”","«بعض الأطفال لا يعرفونني بعد. أستطيع أن أسلّم على شخص واحد اليوم»."),
+   S("“I will never have friends.”","«لن يكون لي أصدقاء أبدًا»."),
+   S("“Everyone is bad.”","«كل الناس سيئون».")],a:0},
+ {bad:S("“I made a mistake. I'm stupid.”","«أخطأت. أنا غبي»."),o:[
+   S("“I'm the worst in the class.”","«أنا أسوأ واحد في الفصل»."),
+   S("“Everyone makes mistakes. I can learn and try again.”","«كل الناس يخطئون. أستطيع أن أتعلم وأحاول مرة أخرى»."),
+   S("“I won't try anymore.”","«لن أحاول مرة أخرى»."),],a:1},
+ {bad:S("“They are laughing. They must be laughing at me.”","«إنهم يضحكون. لا بد أنهم يضحكون عليّ»."),o:[
+   S("“They hate me.”","«إنهم يكرهونني»."),
+   S("“I should cry.”","«يجب أن أبكي»."),
+   S("“Maybe they're laughing at a joke. I don't know for sure.”","«ربما يضحكون على نكتة. لست متأكدًا».")],a:2},
+ {bad:S("“If I say no, she won't like me anymore.”","«إذا قلت لا، فلن تحبني بعد الآن»."),o:[
+   S("“A real friend respects my no.”","«الصديق الحقيقي يحترم كلمة لا مني»."),
+   S("“I must always say yes.”","«يجب أن أقول نعم دائمًا»."),
+   S("“My feelings don't matter.”","«مشاعري غير مهمة».")],a:0},
+ {bad:S("“He called me a name, so it must be true.”","«ناداني بلقب سيئ، إذن لا بد أنه صحيح»."),o:[
+   S("“I am what he says.”","«أنا كما يقول»."),
+   S("“What he says is about him, not about me.”","«ما يقوله يعبّر عنه هو، وليس عني»."),
+   S("“I should hide.”","«يجب أن أختبئ».")],a:1},
+ {bad:S("“I can't do anything about bullying.”","«لا أستطيع فعل أي شيء أمام التنمر»."),o:[
+   S("“I just have to accept it.”","«يجب أن أتقبله فقط»."),
+   S("“I should hit back.”","«يجب أن أضرب بالمثل»."),
+   S("“I can say stop, walk away and tell an adult.”","«أستطيع أن أقول توقف، وأبتعد، وأخبر شخصًا كبيرًا».")],a:2}
+];
+
+/* =========================================================
+   TOOLS DATA
+   ========================================================= */
+const TOOLS=[
+ {id:'roleplay',e:'🎤',title:S('Brave Practice','تدريب الشجاعة'),sub:S('Role-play: say it out loud, then check yourself','لعب أدوار: قلها بصوت عالٍ ثم قيّم نفسك')},
+ {id:'breathe',e:'🎈',title:S('Balloon Breathing','تنفّس البالون'),sub:S('Calm your body in 1 minute','هدّئ جسمك في دقيقة')},
+ {id:'thermo',e:'🌡️',title:S('Feelings Thermometer','ميزان المشاعر'),sub:S('How big is my feeling? What can I do?','ما حجم شعوري؟ وماذا أفعل؟')},
+ {id:'imsg',e:'💬',title:S('I-Message Builder','صانع رسائل «أنا»'),sub:S('Say how you feel without fighting','عبّر عن شعورك دون شجار')},
+ {id:'brave',e:'🦁',title:S('Brave Words','الكلمات الشجاعة'),sub:S('Strong sentences to practice out loud','جمل قوية للتدرب عليها بصوت عالٍ')},
+ {id:'skills',e:'🤝',title:S('Friendship Skills','مهارات الصداقة'),sub:S('Join a game, listen, say sorry…','الانضمام للعب، والاستماع، والاعتذار…')}
+];
+const THERMO=[
+ {c:'#cfeccd',e:'😌',n:S('1 · Calm','١ · هادئ'),d:S("I'm ready to learn and play.","أنا مستعد للتعلم واللعب.")},
+ {c:'#e6f2b8',e:'🙂',n:S('2 · A little upset','٢ · منزعج قليلًا'),d:S("Drink some water. Tell someone how you feel.","اشرب بعض الماء، وأخبر أحدًا بشعورك.")},
+ {c:'#fff0b3',e:'😟',n:S('3 · Upset','٣ · منزعج'),d:S("Take 3 balloon breaths. Count slowly to 10.","خذ 3 أنفاس بالون، وعُدّ ببطء حتى 10.")},
+ {c:'#ffd3a8',e:'😠',n:S('4 · Very upset','٤ · منزعج جدًا'),d:S("Go to a quiet place. Squeeze a pillow. Breathe.","اذهب إلى مكان هادئ، واضغط على وسادة، وتنفّس.")},
+ {c:'#ffb3a8',e:'🌋',n:S('5 · Volcano!','٥ · بركان!'),d:S("STOP. Don't act now. Breathe and ask an adult for help.","توقف. لا تتصرف الآن. تنفّس واطلب المساعدة من شخص كبير.")}
+];
+const IM={
+ f:[S('angry','بالغضب'),S('sad','بالحزن'),S('embarrassed','بالإحراج'),S('upset','بالضيق'),S('scared','بالخوف'),S('left out','بالاستبعاد')],
+ w:[S('take my things without asking','تأخذ أشيائي دون استئذان'),S('call me names','تناديني بألقاب مؤذية'),S('laugh at me','تضحك عليّ'),S("don't let me play","لا تدعني ألعب معكم"),S("don't stop when I say stop","لا تتوقف عندما أقول توقف"),S('tell my secrets','تحكي أسراري')],
+ p:[S('ask me first','استأذن مني أولًا'),S('call me by my name','نادني باسمي'),S('stop','توقف'),S('let me join','دعني أشارك'),S('give it back','أعده لي'),S('keep my secrets','احفظ أسراري')]
+};
+const BRAVE=[
+ {h:S('✋ To stop bullying','✋ لإيقاف التنمر'),p:[S("Stop. I don't like that.","توقف. أنا لا أحب هذا."),S("My name is ___. Please use it.","اسمي ___. نادني به من فضلك."),S("That's not okay.","هذا غير مقبول.")]},
+ {h:S('🫧 To set a boundary','🫧 لوضع حدود'),p:[S("Please ask me first.","استأذن مني أولًا من فضلك."),S("No, thank you.","لا، شكرًا."),S("I don't want to do that.","لا أريد أن أفعل ذلك.")]},
+ {h:S('🙋 To join a game','🙋 للانضمام إلى اللعب'),p:[S("Can I play too?","هل يمكنني اللعب معكم؟"),S("That looks fun! Can I join?","تبدو ممتعة! هل يمكنني المشاركة؟")]},
+ {h:S('🧑‍🏫 To ask for help','🧑‍🏫 لطلب المساعدة'),p:[S("I need help. Someone is bothering me.","أحتاج مساعدة. أحدهم يضايقني."),S("Can I talk to you about something?","هل يمكنني أن أتحدث معك في أمر ما؟")]},
+ {h:S('👋 To make a friend','👋 لتكوين صديق'),p:[S("Hi! I'm ___. What's your name?","مرحبًا! أنا ___. ما اسمك؟"),S("Do you want to sit with me?","هل تريد الجلوس معي؟"),S("I like your drawing!","تعجبني رسمتك!")]},
+ {h:S('🦸 To help someone else','🦸 لمساعدة غيرك'),p:[S("Leave her alone.","اتركها وشأنها."),S("Come with us!","تعالَ معنا!"),S("Are you okay?","هل أنت بخير؟")]}
+];
+const SKILLS=[
+ {h:S('🙋 How to join a game','🙋 كيف تنضم إلى اللعب'),s:[S("Watch the game for a minute.","شاهد اللعبة لدقيقة."),S("Wait for a pause.","انتظر توقفًا قصيرًا."),S("Smile and ask: “Can I play too?”","ابتسم واسأل: «هل يمكنني اللعب معكم؟»"),S("If they say no, try another group. It's okay!","إذا قالوا لا، جرّب مجموعة أخرى. لا بأس!")]},
+ {h:S('👂 How to be a good listener','👂 كيف تكون مستمعًا جيدًا'),s:[S("Look at the person (eyes).","انظر إلى الشخص (العينان)."),S("Don't interrupt (ears).","لا تقاطعه (الأذنان)."),S("Nod and ask a question (heart).","أومئ واسأل سؤالًا (القلب).")]},
+ {h:S('💬 How to start a chat','💬 كيف تبدأ حديثًا'),s:[S("Say hi and smile.","ألقِ التحية وابتسم."),S("Say your name.","قل اسمك."),S("Ask a question: “What do you like?”","اسأل سؤالًا: «ماذا تحب؟»")]},
+ {h:S('🙏 How to say sorry','🙏 كيف تعتذر'),s:[S("Say: “I'm sorry.”","قل: «أنا آسف»."),S("Say what you did: “…for taking your pencil.”","قل ماذا فعلت: «…لأنني أخذت قلمك»."),S("Say how you'll fix it: “Next time I'll ask.”","قل كيف ستصلح الأمر: «في المرة القادمة سأستأذن».")]},
+ {h:S('🤔 How to disagree kindly','🤔 كيف تختلف بلطف'),s:[S("Listen to the other idea first.","استمع للفكرة الأخرى أولًا."),S("Say: “I see it differently…”","قل: «أنا أراها بشكل مختلف…»"),S("Find a way you both like.","ابحثا عن حل يعجبكما معًا.")]}
+];
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function addStar(n=1){stars+=n;save();const s=$('stars');s.textContent='⭐ '+stars;s.classList.remove('pop');void s.offsetWidth;s.classList.add('pop');toast('+'+n+' ⭐');}
+function once(key,n=1){if(awarded[key])return;awarded[key]=1;addStar(n);}
+function strip(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/[“”«»"]/g,'');}
+let _utt=null;
+function pickVoice(lg){
+  try{
+    const vs=speechSynthesis.getVoices()||[];
+    const pref=lg==='ar'?/^ar[-_](EG|SA)/i:/^en[-_](US|GB)/i, any=lg==='ar'?/^ar/i:/^en/i;
+    return {all:vs.length,v:vs.find(v=>pref.test(v.lang))||vs.find(v=>any.test(v.lang))||null};
+  }catch(e){return {all:0,v:null};}
+}
+function speak(text,lg){
+  lg=lg||lang;
+  if(!window.speechSynthesis||typeof SpeechSynthesisUtterance==='undefined'){
+    toast(L(S('🔇 This browser has no voice. Open the link in Chrome or Safari.','🔇 هذا المتصفح لا يدعم الصوت. افتح الرابط في Chrome أو Safari.')));return;}
+  try{
+    speechSynthesis.cancel();
+    setTimeout(()=>{
+      const u=new SpeechSynthesisUtterance(text);
+      const {all,v}=pickVoice(lg);
+      u.lang=lg==='ar'?'ar-EG':'en-US';
+      if(v){u.voice=v;u.lang=v.lang;}
+      u.rate=lg==='ar'?0.9:0.85;u.volume=1;
+      u.onerror=e=>{if(e.error!=='interrupted'&&e.error!=='canceled')toast(L(S('🔇 Sound problem — open 🔊 Sound test on the home page','🔇 مشكلة في الصوت، افتح «🔊 تجربة الصوت» من الصفحة الرئيسية')));};
+      _utt=u;
+      try{speechSynthesis.resume();}catch(e){}
+      speechSynthesis.speak(u);
+      if(all&&!v)toast(lg==='ar'?L(S('🔇 No Arabic voice on this phone. Tap English to listen in English, or see 🔊 Sound test.','🔇 لا يوجد صوت عربي على الهاتف. اضغط English لتسمع بالإنجليزية، أو افتح «🔊 تجربة الصوت».')):L(T.noVoice));
+    },120);
+  }catch(e){toast(L(T.noVoice));}
+}
+try{speechSynthesis.getVoices();speechSynthesis.addEventListener('voiceschanged',()=>{if((location.hash||'')==='#sound')vSound();});}catch(e){}
+function vSound(){
+  const ok=!!(window.speechSynthesis&&typeof SpeechSynthesisUtterance!=='undefined');
+  const ar=ok?pickVoice('ar'):{all:0,v:null}, en=ok?pickVoice('en'):{all:0,v:null};
+  const inApp=/FBAN|FBAV|Instagram|Line\/|Snapchat|TikTok|; wv\)/i.test(navigator.userAgent);
+  const row=(good,txt)=>`<div class="chk" style="background:${good?'var(--green-l)':'var(--bad-l)'}">${good?'✅':'❌'} ${txt}</div>`;
+  app.innerHTML=head('🔊',S('Sound test','تجربة الصوت'),S('Check why you can or can’t hear the voice.','اعرف لماذا تسمع الصوت أو لا تسمعه.'))+`<div class="card">
+   ${row(ok&&!inApp,L(S('This browser supports voice','المتصفح يدعم الصوت')))}
+   ${row(!!en.v,L(S('English voice on this device','صوت إنجليزي على هذا الجهاز'))+(en.v?` <small>(${esc(en.v.name)})</small>`:''))}
+   ${row(!!ar.v,L(S('Arabic voice on this device','صوت عربي على هذا الجهاز'))+(ar.v?` <small>(${esc(ar.v.name)})</small>`:''))}
+   <div class="g-btns two" style="margin-top:14px"><button onclick="speak('Hello! I am your friendship helper.','en')"><span class="big">🇬🇧</span>${L(S('Test English','جرّب الإنجليزي'))}</button><button onclick="speak('مرحبًا! أنا مساعدك في الصداقة.','ar')"><span class="big">🇪🇬</span>${L(S('Test Arabic','جرّب العربي'))}</button></div>
+  </div>
+  <div class="card skill-card" style="margin-top:12px"><h3>🛠️ ${L(S('No sound? Try this:','لا يوجد صوت؟ جرّب هذا:'))}</h3><ol>
+   <li>${L(S('Turn up the <b>media</b> volume (not the ringtone) while the voice is playing.','ارفع صوت <b>الوسائط</b> (وليس صوت الرنين) أثناء تشغيل الصوت.'))}</li>
+   <li>${L(S('iPhone: turn off silent mode (the switch on the side).','آيفون: أوقف الوضع الصامت (الزر الجانبي).'))}</li>
+   <li>${L(S('Open the link in <b>Chrome</b> (Android) or <b>Safari</b> (iPhone), not inside WhatsApp, Facebook or Instagram.','افتح الرابط في <b>Chrome</b> (أندرويد) أو <b>Safari</b> (آيفون)، وليس من داخل واتساب أو فيسبوك أو إنستجرام.'))}</li>
+   <li>${L(S('No Arabic voice? Android: in the phone settings, open “Text-to-speech”, choose Google’s engine and install the Arabic voice. iPhone: Settings › Accessibility › Spoken Content › Voices › Arabic.','لا يوجد صوت عربي؟ أندرويد: من إعدادات الهاتف افتح «تحويل النص إلى كلام»، واختر محرك Google، ونزّل الصوت العربي. آيفون: الإعدادات › تسهيلات الاستخدام › المحتوى المنطوق › الأصوات › العربية.'))}</li>
+   <li>${L(S('Close the page and open it again after installing a voice.','أغلق الصفحة وافتحها مرة أخرى بعد تنزيل الصوت.'))}</li>
+  </ol></div>`;
+}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function pic(key,ph,color,cls,fb){
+  if(!IMGS.has(key)&&fb&&IMGS.has(fb))key=fb;
+  if(IMGS.has(key))return `<img class="${cls||'scene-img'}" src="${imgSrc(key)}" alt="">`;
+  return `<div class="ph" style="background:linear-gradient(160deg,${color}33,${color}88)"><div class="pe">${ph}</div><div class="pc">${L(T.soon)}</div></div>`;
+}
+function go(h){if(location.hash==='#'+h)route();else location.hash=h;}
+function head(ic,title,sub){return `<div class="page-h"><span class="ic">${ic}</span><h2>${L(title)}</h2></div>${sub?`<p class="sub">${L(sub)}</p>`:''}`;}
+function winBadge(id){
+  if(!earn(id))return '';
+  const b=BADGES[id];
+  return `<div class="badge-won"><div class="bg">${b.e}</div><h3>${L(T.newBadge)}</h3><b>${L(b)}</b></div>`;
+}
+
+/* =========================================================
+   VIEWS
+   ========================================================= */
+const app=$('app');
+function setChrome(){
+  document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  $('brand').innerHTML=L(T.brand);$('langBtn').textContent=L(T.langBtn);$('stars').textContent='⭐ '+stars;
+  document.title=lang==='ar'?'مختبر الصداقة':'Friendship Lab';
+}
+function toggleLang(){lang=lang==='ar'?'en':'ar';save();try{speechSynthesis.cancel();}catch(e){}route(true);}
+
+function vHome(){
+  app.innerHTML=`<div class="hero"><h1>${L(T.heroTitle)}</h1><p>${L(T.heroSub)}</p><img src="${imgSrc('p9')}" alt=""><div class="mt"><a class="btn yel" href="#sound" style="text-decoration:none;display:inline-block">🔊 ${L(S('Sound test','تجربة الصوت'))}</a></div></div>
+  <div class="hub">
+   <a href="#stories" class="wide" style="background:#fff6e0"><div class="e">📖</div><div><h3>${L(T.stories)}</h3><p>${L(T.storiesSub)}</p></div></a>
+   <a href="#games" style="background:#eef6ec"><div class="e">🎮</div><h3>${L(T.games)}</h3><p>${L(T.gamesSub)}</p></a>
+   <a href="#tools" style="background:#eaf1fb"><div class="e">🧰</div><h3>${L(T.tools)}</h3><p>${L(T.toolsSub)}</p></a>
+   <a href="#badges" style="background:#f4eefc"><div class="e">🏅</div><h3>${L(T.badges)}</h3><p>${Object.keys(earned).length} / ${Object.keys(BADGES).length} · ${L(T.badgesSub)}</p></a>
+   <a href="#book" style="background:#fdeef2"><div class="e">📚</div><h3>${L(T.book)}</h3><p>${L(T.bookSub)}</p></a>
+   <a href="#journal" style="background:#fff3e6"><div class="e">📔</div><h3>${L(S('My Journal','يومياتي'))}</h3><p>${L(S('Write how you feel today','اكتب كيف تشعر اليوم'))}</p></a>
+   <a href="#parents" style="background:#eef3f1"><div class="e">👪</div><h3>${L(S("Parents' Corner",'ركن الأهل'))}</h3><p>${L(S('Signs, tips and what to say','علامات ونصائح وماذا تقول'))}</p></a>
+   <a href="#recs" class="wide" style="background:#fde9ec"><div class="e">🎙️</div><div><h3>${L(S('My Recordings','تسجيلاتي'))}</h3><p>${L(S('Read the stories with your own voice and listen to yourself','اقرأ القصص بصوتك واسمع نفسك'))}</p></div></a>
+  </div>`;
+}
+function vStories(){
+  app.innerHTML=head('📖',T.stories,T.storiesSub)+`<div class="list">${STORIES.map(s=>`
+   <a class="item" href="#story-${s.id}"><div class="thumb" style="background:${s.color}44">${IMGS.has(s.scenes[0].img)?`<img src="${imgSrc(s.scenes[0].img)}" alt="">`:s.emoji}</div>
+   <div><h3>${L(s.title)}</h3><p>${L(s.tag)}</p></div><div class="done">${earned[s.badge]?BADGES[s.badge].e:''}</div></a>`).join('')}</div>
+  <div class="page-h"><span class="ic">✍️</span><h2>${L(S('Finish the story','أكمل القصة'))}</h2></div><p class="sub">${L(S('Short stories with no ending. You decide what happens!','قصص قصيرة بلا نهاية. أنت من يقرر ماذا يحدث!'))}</p>
+  <div class="list">${FINISH.map(f=>`<a class="item" href="#finish-${f.id}"><div class="thumb" style="background:${f.color}44">${IMGS.has(f.img)?`<img src="${imgSrc(f.img)}" alt="">`:(f.ph||'✍️').slice(0,2)}</div><div><h3>${L(f.title)}</h3><p>${L(S('Choose or write the ending','اختر النهاية أو اكتبها'))}</p></div><div class="done">${awarded['fin'+f.id]?'✍️':''}</div></a>`).join('')}</div>`;
+}
+
+/* story reader */
+let cur={s:null,i:0,ans:{}};
+function vStory(id){
+  const s=STORIES.find(x=>x.id==id);if(!s)return vStories();
+  if(cur.s!==s){cur={s,i:0,ans:{}};}
+  renderScene();
+}
+function renderScene(){
+  const s=cur.s,i=cur.i;
+  if(i>=s.scenes.length)return renderEnd();
+  const sc=s.scenes[i];
+  let ch='';
+  if(sc.choice){
+    ch=`<div class="choice"><h3>🤔 ${L(sc.choice.q)}</h3>${sc.choice.opts.map((o,k)=>`<button class="opt" onclick="pick(${k})">${L(o.t)}</button>`).join('')}<div class="fb" id="fb"></div></div>`;
+  }
+  const otherCls=lang==='ar'?'alt-en':'alt-ar';
+  app.innerHTML=`<div class="page-h"><span class="ic">${s.emoji}</span><h2>${L(s.title)}</h2></div>
+  <div class="card story">${pic(sc.img,sc.ph,s.color,null,sc.fb)}
+   <div class="scene-body">
+    <div class="scene-num">${L(T.page)} ${i+1} ${L(T.of)} ${s.scenes.length}</div>
+    <div class="scene-text">${L(sc.t)}</div>
+    <div class="tools"><button class="btn yel" onclick="speak(strip(cur.s.scenes[cur.i].t[lang]))">${L(T.listen)}</button><button class="btn blu" onclick="document.getElementById('oth').classList.toggle('show')">${L(T.showOther)}</button></div>
+    <div class="other ${otherCls}" id="oth">${O(sc.t)} <button class="btn" style="margin-inline-start:6px;padding:2px 8px" onclick="speak(strip(O(cur.s.scenes[cur.i].t)),lang==='ar'?'en':'ar')">🔊</button></div>
+    <div class="recbox" id="recbox"></div>
+    ${ch}
+   </div>
+   <div class="navrow">
+    <button class="main-btn ghost" onclick="step(-1)" ${i===0?'disabled':''}>${L(T.back)}</button>
+    <div class="dots">${s.scenes.map((_,k)=>`<span class="dot ${k===i?'on':''}"></span>`).join('')}</div>
+    <button class="main-btn" id="nextBtn" onclick="step(1)" ${sc.choice&&cur.ans[i]==null?'disabled':''}>${i===s.scenes.length-1?L(T.finish):L(T.next)}</button>
+   </div></div>`;
+  {const rk='st'+s.id+'-'+i+'-'+lang;RECLBL[rk]=S(s.title.en+' · page '+(i+1),s.title.ar+' · صفحة '+(i+1));renderRecBox(rk,'recbox');}
+  if(cur.ans[i]!=null)showPick(cur.ans[i],false);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function step(d){try{speechSynthesis.cancel();}catch(e){}recStopAll();cur.i=Math.max(0,cur.i+d);renderScene();}
+function pick(k){showPick(k,true);}
+function showPick(k,fresh){
+  const sc=cur.s.scenes[cur.i],o=sc.choice.opts[k];
+  const btns=app.querySelectorAll('.choice .opt');btns.forEach(b=>b.classList.remove('good','bad'));
+  btns[k].classList.add(o.ok?'good':'bad');
+  const fb=$('fb');fb.className='fb show '+(o.ok?'good':'bad');fb.textContent=(o.ok?'✅ ':'💭 ')+L(o.fb);
+  if(fresh){
+    if(o.ok)once('st'+cur.s.id+'-'+cur.i);
+    cur.ans[cur.i]=k;
+  }
+  const nb=$('nextBtn');if(nb)nb.disabled=false;
+}
+function renderEnd(){
+  const s=cur.s;
+  const won=winBadge(s.badge);
+  if(won)addStar(3);
+  app.innerHTML=`<div class="page-h"><span class="ic">${s.emoji}</span><h2>${L(s.title)}</h2></div>
+  <div class="card end">
+   ${won||`<div class="center" style="font-size:52px">🎉</div>`}
+   <div class="skillbox"><h3>${L(T.learned)}</h3><p style="margin:4px 0 0;font-weight:600">${L(s.skill)}</p>
+    <button class="btn" style="margin-top:8px" onclick="speak(L(cur.s.skill))">🔊</button></div>
+   <div class="thinkbox"><h3>${L(T.think)}</h3><p style="margin:2px 0 0;color:var(--soft)">${L(T.thinkSub)}</p><ol>${s.think.map(q=>`<li>${L(q)}</li>`).join('')}</ol></div>
+   <div class="center mt"><button class="main-btn" onclick="cur={s:null,i:0,ans:{}};go('stories')">${L(T.moreStories)}</button></div>
+  </div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* games */
+function vGames(){
+  app.innerHTML=head('🎮',T.games,T.gamesSub)+`<div class="list">${GAMES.map(g=>`
+   <a class="item" href="#game-${g.id}"><div class="thumb" style="background:var(--yellow-l)">${g.e}</div><div><h3>${L(g.title)}</h3><p>${L(g.sub)}</p></div><div class="done">${earned[g.id]?BADGES[g.id].e:''}</div></a>`).join('')}</div>`;
+}
+function gameShell(id,body){const g=GAMES.find(x=>x.id===id);app.innerHTML=head(g.e,g.title,g.sub)+`<div class="card" id="gc">${body||''}</div><div class="center mt"><a class="btn" href="#games" style="text-decoration:none;display:inline-block">${L(T.allGames)}</a></div>`;}
+function gameResult(id,score,total,passAt){
+  const pass=score>=passAt;
+  const won=pass?winBadge(id):'';
+  $('gc').innerHTML=`<div class="result"><div class="big">${pass?'🏆':'💪'}</div><h3>${score} / ${total}</h3><p>${pass?L(T.great):L(T.good)}</p>${won}<button class="main-btn mt" onclick="route(true)">${L(T.tryAgain)}</button></div>`;
+}
+/* generic quiz-style runner */
+function runQuiz(id,items,renderItem,passAt){
+  let i=0,score=0;const tok=viewTok;
+  const next=()=>{
+    if(tok!==viewTok||!$('gc'))return;
+    if(i>=items.length)return gameResult(id,score,items.length,passAt);
+    renderItem(items[i],i,items.length,ok=>{if(ok){score++;const it=items[i];once('g'+id+':'+((it.t||it.bad).en));}setTimeout(()=>{i++;next();},1600);});
+  };
+  next();
+}
+function vGame(id){
+  gameShell(id);
+  if(id==='feel'){
+    runQuiz('feel',shuffle(FEEL_Q).slice(0,10),(it,i,n,done)=>{
+      $('gc').innerHTML=`<div class="g-count">${i+1} / ${n}</div><div class="g-say">${L(it.t)}</div>
+      <div class="feel-grid">${shuffle(it.o).map(k=>`<button data-k="${k}"><span class="big">${FEEL[k].e}</span>${L(FEEL[k])}</button>`).join('')}</div><div class="g-fb" id="gfb"></div>`;
+      $('gc').querySelectorAll('.feel-grid button').forEach(b=>b.onclick=()=>{
+        $('gc').querySelectorAll('.feel-grid button').forEach(x=>{x.disabled=true;if(x.dataset.k===it.a)x.classList.add('good');});
+        const ok=b.dataset.k===it.a;if(!ok)b.classList.add('bad');
+        $('gfb').textContent=ok?'✅ '+L(T.correct):'💭 '+FEEL[it.a].e+' '+L(FEEL[it.a]);
+        done(ok);
+      });
+    },8);
+  }
+  if(id==='mmm'){
+    const key=`<div class="mmm-key">${Object.values(MMM_TYPES).map(m=>`<div><span style="font-size:26px">${m.e}</span><b>${L(m.n)}</b>${L(m.d)}</div>`).join('')}</div>`;
+    runQuiz('mmm',shuffle(MMM),(it,i,n,done)=>{
+      $('gc').innerHTML=key+`<div class="g-count">${i+1} / ${n}</div><div class="g-say" style="font-size:20px">${L(it.t)}</div>
+      <div class="g-btns three">${Object.entries(MMM_TYPES).map(([k,m])=>`<button data-k="${k}"><span class="big">${m.e}</span>${L(m.n)}</button>`).join('')}</div><div class="g-fb" id="gfb"></div>`;
+      $('gc').querySelectorAll('.g-btns button').forEach(b=>b.onclick=()=>{
+        $('gc').querySelectorAll('.g-btns button').forEach(x=>{x.disabled=true;if(x.dataset.k===it.a)x.classList.add('g-yes');});
+        const ok=b.dataset.k===it.a;if(!ok)b.classList.add('g-no');
+        const m=MMM_TYPES[it.a];
+        $('gfb').textContent=(ok?'✅ ':'💭 ')+m.e+' '+L(m.n)+' — '+L(m.d);
+        done(ok);
+      });
+    },8);
+  }
+  if(id==='okno'){
+    runQuiz('okno',shuffle(OKNO),(it,i,n,done)=>{
+      $('gc').innerHTML=`<div class="g-count">${i+1} / ${n}</div><div class="g-say" style="font-size:20px">${L(it.t)}</div>
+      <div class="g-btns two"><button class="g-yes" data-k="1"><span class="big">✅</span>${L(T.ok)}</button><button class="g-no" data-k="0"><span class="big">⛔</span>${L(T.notOk)}</button></div><div class="g-fb" id="gfb"></div>`;
+      $('gc').querySelectorAll('.g-btns button').forEach(b=>b.onclick=()=>{
+        $('gc').querySelectorAll('.g-btns button').forEach(x=>x.disabled=true);
+        const ok=+b.dataset.k===it.a;
+        $('gfb').textContent=(ok?'✅ ':'💭 ')+L(it.fb);
+        done(ok);
+      });
+    },8);
+  }
+  if(id==='friend'){
+    runQuiz('friend',shuffle(FRIEND),(it,i,n,done)=>{
+      $('gc').innerHTML=`<div class="g-count">${i+1} / ${n}</div><div class="g-say">${L(it.t)}</div>
+      <div class="g-btns two"><button class="g-yes" data-k="1"><span class="big">💚</span>${L(T.real)}</button><button class="g-no" data-k="0"><span class="big">🚫</span>${L(T.notReal)}</button></div><div class="g-fb" id="gfb"></div>`;
+      $('gc').querySelectorAll('.g-btns button').forEach(b=>b.onclick=()=>{
+        $('gc').querySelectorAll('.g-btns button').forEach(x=>x.disabled=true);
+        const ok=+b.dataset.k===it.a;
+        $('gfb').textContent=ok?'✅ '+L(T.correct):'💭 '+(it.a?L(S('This is what a real friend does.','هذا ما يفعله الصديق الحقيقي.')):L(S('A real friend does not do this.','الصديق الحقيقي لا يفعل هذا.')));
+        done(ok);
+      });
+    },8);
+  }
+  if(id==='thought'){
+    runQuiz('thought',shuffle(THOUGHTS),(it,i,n,done)=>{
+      $('gc').innerHTML=`<div class="g-count">${i+1} / ${n}</div>
+      <div class="g-say" style="font-size:19px;flex-direction:column">☁️ ${L(it.bad)}<small style="font-size:14px;color:var(--soft);font-weight:700">${L(S('Choose a more helpful thought:','اختر فكرة أكثر فائدة:'))}</small></div>
+      ${it.o.map((o,k)=>`<button class="opt" data-k="${k}">💡 ${L(o)}</button>`).join('')}<div class="g-fb" id="gfb"></div>`;
+      $('gc').querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+        $('gc').querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.k===it.a)x.classList.add('good');});
+        const ok=+b.dataset.k===it.a;if(!ok)b.classList.add('bad');
+        $('gfb').textContent=ok?'✅ '+L(S('Great thinking! Helpful thoughts make us stronger.','تفكير رائع! الأفكار المفيدة تجعلنا أقوى.')):'💭 '+L(S('That thought makes us feel worse. Look at the green one.','هذه الفكرة تجعلنا نشعر بالأسوأ. انظر إلى الإجابة الخضراء.'));
+        done(ok);
+      });
+    },5);
+  }
+  if(id==='memory')memoryGame();
+}
+function memoryGame(){
+  const keys=shuffle(['happy','sad','angry','scared','embarrassed','proud','nervous','lonely','shy','surprised']).slice(0,6);
+  const cards=shuffle(keys.flatMap(k=>[{k,type:'e'},{k,type:'w'}]));
+  let open=[],matched=0,moves=0,lock=false;const tok=viewTok;
+  const draw=()=>{
+    if(tok!==viewTok||!$('gc'))return;
+    $('gc').innerHTML=`<div class="g-count">${L(T.moves)}: ${moves}</div><div class="mem">${cards.map((c,i)=>`<button class="mcard ${c.m?'match':c.o?'open':''}" data-i="${i}">${c.m||c.o?(c.type==='e'?`<span class="big">${FEEL[c.k].e}</span>`:L(FEEL[c.k])):''}</button>`).join('')}</div>`;
+    $('gc').querySelectorAll('.mcard').forEach(b=>b.onclick=()=>{
+      const c=cards[+b.dataset.i];if(lock||c.o||c.m)return;
+      c.o=1;open.push(c);
+      if(c.type==='w')speak(FEEL[c.k][lang]);
+      if(open.length===2){
+        moves++;lock=true;
+        const [a,b2]=open;
+        if(a.k===b2.k&&a.type!==b2.type){a.m=b2.m=1;matched++;open=[];lock=false;draw();
+          if(matched===keys.length){once('mem',3);setTimeout(()=>gameResult('memory',keys.length,keys.length,0),700);}
+        }else{draw();setTimeout(()=>{a.o=b2.o=0;open=[];lock=false;draw();},900);}
+      }else draw();
+    });
+  };
+  draw();
+}
+
+/* tools */
+function vTools(){
+  app.innerHTML=head('🧰',T.tools,T.toolsSub)+`<div class="list">${TOOLS.map(t=>`
+   <a class="item" href="#tool-${t.id}"><div class="thumb" style="background:var(--blue-l)">${t.e}</div><div><h3>${L(t.title)}</h3><p>${L(t.sub)}</p></div></a>`).join('')}</div>`;
+}
+let breathTimer=null;
+function vTool(id){
+  const t=TOOLS.find(x=>x.id===id);if(!t)return vTools();
+  let body='';
+  if(id==='breathe'){
+    body=`<p class="center" style="margin-top:0">${L(S('Breathe in slowly while the balloon grows. Breathe out slowly while it gets small. 5 times.','خذ نفسًا بطيئًا بينما يكبر البالون، ثم أخرجه ببطء بينما يصغر. 5 مرات.'))}</p>
+    <div class="balloon-wrap"><div class="balloon" id="bal"></div></div><div class="breath-txt" id="btx"></div>
+    <div class="center mt"><button class="main-btn" id="bbtn" onclick="toggleBreath()">${L(T.start)}</button></div>`;
+  }
+  if(id==='thermo'){
+    body=`<p style="margin-top:0">${L(S('How big is your feeling right now? Tap a level.','ما حجم شعورك الآن؟ اضغط على المستوى.'))}</p>
+    <div class="thermo">${THERMO.slice().reverse().map((l,ri)=>{const i=THERMO.length-1-ri;return `<button class="lvl" style="background:${l.c}" onclick="thermoPick(${i},this)"><span class="big">${l.e}</span><span><b>${L(l.n)}</b><span>${L(l.d)}</span></span></button>`;}).join('')}</div>`;
+  }
+  if(id==='imsg'){
+    const sel=(n,arr)=>`<select id="im${n}" onchange="imUpdate()">${arr.map((o,k)=>`<option value="${k}">${L(o)}</option>`).join('')}</select>`;
+    body=`<p style="margin-top:0">${L(S('Instead of shouting, use an “I-message”. Build yours:','بدلًا من الصراخ، استخدم «رسالة أنا». ابنِ رسالتك:'))}</p>
+    <div class="imsg"><label>${L(S('I feel…','أشعر…'))}</label>${sel('f',IM.f)}<label>${L(S('when you…','عندما…'))}</label>${sel('w',IM.w)}<label>${L(S('Please…','من فضلك…'))}</label>${sel('p',IM.p)}</div>
+    <div class="sentence" id="imOut"></div><div class="tools"><button class="btn yel" onclick="speak($('imOut').textContent)">${L(T.hearIt)}</button></div>
+    <p style="color:var(--soft);font-size:15px">${L(S('Say it with a calm, strong voice and look at the person.','قلها بصوت هادئ وقوي وأنت تنظر إلى الشخص.'))}</p>`;
+  }
+  if(id==='brave'){
+    body=`<p style="margin-top:0">${L(S('Practice these out loud with your Brave Body: stand tall, look at the eyes, calm strong voice.','تدرّب عليها بصوت عالٍ مع جسمك الشجاع: قف مستقيمًا، وانظر في العينين، وتكلّم بصوت هادئ وقوي.'))}</p>
+    ${BRAVE.map((c,ci)=>`<div class="phr-cat"><h3>${L(c.h)}</h3>${c.p.map((p,pi)=>`<div class="phr"><div class="t">${L(p)}<small class="${lang==='ar'?'alt-en':'alt-ar'}">${O(p)}</small></div><button class="btn yel" onclick="speak(L(BRAVE[${ci}].p[${pi}]).replace('___',''))">🔊</button></div>`).join('')}</div>`).join('')}`;
+  }
+  if(id==='roleplay'){
+    body=`<p style="margin-top:0">${L(S('Tip: ask Mom or Dad to play the other person, then swap roles!','نصيحة: اطلب من ماما أو بابا أن يمثل دور الشخص الآخر، ثم تبادلا الأدوار!'))}</p><div id="gc"></div>`;
+  }
+  if(id==='skills'){
+    body=SKILLS.map(k=>`<div class="skill-card"><h3>${L(k.h)}</h3><ol>${k.s.map(x=>`<li>${L(x)}</li>`).join('')}</ol></div>`).join('<hr style="border:none;border-top:1px dashed var(--line);margin:14px 0">');
+  }
+  app.innerHTML=head(t.e,t.title,t.sub)+`<div class="card">${body}</div><div class="center mt"><a class="btn" href="#tools" style="text-decoration:none;display:inline-block">${L(T.allTools)}</a></div>`;
+  if(id==='imsg')imUpdate();
+  if(id==='roleplay'){rp={i:0,said:0,chk:{}};rpShow();}
+}
+function thermoPick(i,el){app.querySelectorAll('.lvl').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');speak(strip(L(THERMO[i].d)));}
+function imUpdate(){
+  const f=IM.f[$('imf').value],w=IM.w[$('imw').value],p=IM.p[$('imp').value];
+  $('imOut').textContent=lang==='ar'?`أشعر ${f.ar} عندما ${w.ar}. من فضلك ${p.ar}.`:`I feel ${f.en} when you ${w.en}. Please ${p.en}.`;
+}
+function toggleBreath(){
+  const bal=$('bal'),btx=$('btx'),btn=$('bbtn');
+  if(breathTimer){clearTimeout(breathTimer);breathTimer=null;bal.style.transform='scale(1)';btx.textContent='';btn.textContent=L(T.start);return;}
+  btn.textContent=L(T.stop);let n=0;
+  const cycle=()=>{
+    if(n>=5){breathTimer=null;btx.textContent=L(T.breathDone);btn.textContent=L(T.start);once('br'+new Date().toDateString());return;}
+    bal.style.transform='scale(2.4)';btx.textContent=L(T.breatheIn)+' ('+(n+1)+'/5)';
+    breathTimer=setTimeout(()=>{bal.style.transform='scale(1)';btx.textContent=L(T.breatheOut);n++;breathTimer=setTimeout(cycle,4200);},4200);
+  };
+  cycle();
+}
+
+/* badges */
+function vBadges(){
+  app.innerHTML=head('🏅',T.badges,T.badgesSub)+`<div class="badges">${Object.entries(BADGES).map(([k,b])=>`<div class="bdg ${earned[k]?'':'off'}"><div class="big">${b.e}</div><b>${L(b)}</b></div>`).join('')}</div>
+  <p class="center" style="color:var(--soft);margin-top:16px">${L(S('Finish a story or win a game to earn a badge. Each correct answer gives a star the first time.','أنهِ قصة أو اربح لعبة لتحصل على وسام. كل إجابة صحيحة تعطيك نجمة في أول مرة.'))}</p>
+  <div class="center mt"><button class="btn" id="rst" onclick="resetAll(this)">↺ ${L(S('Start over (new player)','البدء من جديد (لاعب جديد)'))}</button></div>`;
+}
+
+function resetAll(b){
+  if(!b.dataset.sure){b.dataset.sure=1;b.textContent=L(S('Tap again to erase all stars and badges','اضغط مرة أخرى لمسح كل النجوم والأوسمة'));b.style.borderColor='var(--red)';return;}
+  stars=0;earned={};awarded={};save();route(true);toast('↺');
+}
+/* book corner */
+function vBook(){
+  const qs=[
+   S("In Real Friends, Shannon often feels left out. Have you ever felt left out? What did you do?","في كتاب Real Friends كانت شانون كثيرًا ما تشعر بالاستبعاد. هل حصل لك هذا؟ ماذا فعلت؟"),
+   S("Why do some kids want to be in “the group” so much?","لماذا يريد بعض الأطفال بشدة أن يكونوا ضمن «المجموعة»؟"),
+   S("Friends can change. Is it okay to make new friends?","الأصدقاء قد يتغيرون. هل من الطبيعي أن نكوّن صداقات جديدة؟"),
+   S("Who was a real friend to Shannon? Why?","من كان صديقًا حقيقيًا لشانون؟ ولماذا؟"),
+   S("If you could talk to Shannon, what advice would you give her?","لو قابلت شانون، ما النصيحة التي تقولها لها؟"),
+   S("Finish the sentence: “A real friend is someone who…”","أكمل الجملة: «الصديق الحقيقي هو الشخص الذي…»")];
+  app.innerHTML=head('📚',T.book,null)+`<div class="card">
+   <span class="pill">Real Friends</span><span class="pill">2017</span><span class="pill">${L(S('Graphic memoir','سيرة ذاتية مصوّرة'))}</span>
+   <p>${L(S("<b>Real Friends</b> is a comic book by <b>Shannon Hale</b>, with pictures by <b>LeUyen Pham</b>. It is a true story: Shannon tells about her own life as a little girl at school.","<b>Real Friends</b> رواية مصوّرة كتبتها <b>شانون هيل</b> ورسمتها <b>ليوين فام</b>. وهي قصة حقيقية تحكي فيها الكاتبة عن طفولتها في المدرسة."))}</p>
+   <p>${L(S("Shannon wants to belong to a group of friends, but she often feels left out. She learns to be brave, to be herself, and to find friends who are really kind.","كانت شانون تريد أن تنتمي لمجموعة من الصديقات، لكنها كثيرًا ما شعرت بالاستبعاد. وتتعلم أن تكون شجاعة، وأن تبقى على طبيعتها، وأن تجد أصدقاء طيبين حقًا."))}</p>
+   <p style="font-size:14px;color:var(--soft);border-top:1px dashed var(--line);padding-top:10px">${L(S("The stories, characters and pictures on this page are original. They are not from the book.","القصص والشخصيات والرسومات في هذه الصفحة جديدة، وليست من الكتاب."))}</p>
+  </div>
+  <h3 style="font-size:22px;margin:22px 0 8px">🛒 ${L(S('Where to read the book','أين تقرأ الكتاب'))}</h3>
+  <div class="card">
+   <p style="margin-top:0">${L(S("The book is protected by copyright, so it can't be put on this page. You can get a legal copy here:","الكتاب محمي بحقوق النشر، لذلك لا يمكن وضعه في هذه الصفحة. يمكنك الحصول على نسخة قانونية من هنا:"))}</p>
+   <div class="phr"><div class="t">📗 ${L(S('Paper book in Egypt — Diwan bookstore','نسخة ورقية في مصر — مكتبة ديوان'))}<small>diwanegypt.com</small></div><a class="btn yel" href="https://diwanegypt.com/product/real-friends/" target="_blank" rel="noopener">↗</a></div>
+   <div class="phr"><div class="t">📱 ${L(S('E-book from the publisher (Kindle, Apple Books, Google Play…)','نسخة إلكترونية من الناشر (Kindle وApple Books وGoogle Play…)'))}<small>read.macmillan.com</small></div><a class="btn yel" href="https://read.macmillan.com/lp/real-friends-ebook/" target="_blank" rel="noopener">↗</a></div>
+   <div class="phr"><div class="t">🏛️ ${L(S('Borrow free with a library card (Libby app)','استعارة مجانية ببطاقة مكتبة (تطبيق Libby)'))}<small>overdrive.com</small></div><a class="btn yel" href="https://www.overdrive.com/media/3177547/real-friends" target="_blank" rel="noopener">↗</a></div>
+   <p style="font-size:14px;color:var(--soft);margin-bottom:0">${L(S('Reading level: easy English with pictures, made for ages 8–12 (grades 4–8). 224 pages.','مستوى القراءة: إنجليزية سهلة مع صور، مناسب لعمر 8 إلى 12 سنة (الصف الرابع إلى الثامن). 224 صفحة.'))}</p>
+  </div>
+  <h3 style="font-size:22px;margin:22px 0 4px">💬 ${L(S('Book talk','أسئلة للنقاش'))}</h3>
+  ${qs.map((q,i)=>`<div class="q">${i+1}. ${L(q)}</div>`).join('')}`;
+}
+
+/* =========================================================
+   NEW: JOURNAL · ROLE-PLAY · FINISH THE STORY · PARENTS
+   ========================================================= */
+const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let journal=[];try{journal=JSON.parse(localStorage.getItem('fl_journal')||'[]');}catch(e){}
+function saveJ(){try{localStorage.setItem('fl_journal',JSON.stringify(journal));}catch(e){}}
+const HELP={breathe:S('🎈 Balloon breaths','🎈 أنفاس البالون'),talk:S('💬 Talked to someone','💬 تحدثت مع أحد'),draw:S('🎨 Drew or wrote','🎨 رسمت أو كتبت'),play:S('⚽ Played or moved','⚽ لعبت أو تحركت'),stop:S('✋ Said “Stop”','✋ قلت «توقف»'),adult:S('🧑‍🏫 Told an adult','🧑‍🏫 أخبرت شخصًا كبيرًا'),hug:S('🤗 Got a hug','🤗 حصلت على حضن'),rest:S('😴 Rested','😴 استرحت')};
+let jd={f:null,lv:null,help:{}};
+function vJournal(){
+  const feels=['happy','proud','excited','calm','sad','angry','scared','embarrassed','lonely','nervous','jealous','shy'];
+  app.innerHTML=head('📔',S('My Feelings Journal','يوميات مشاعري'),S('Write how you feel today. Only you and your family can see it on this device.','اكتب كيف تشعر اليوم. لا يراها إلا أنت وعائلتك على هذا الجهاز.'))+`
+  <div class="card">
+   <h3 class="jq">1. ${L(S('How do I feel?','بماذا أشعر؟'))}</h3>
+   <div class="feel-grid three-col">${feels.map(k=>`<button class="jf ${jd.f===k?'good':''}" onclick="jd.f='${k}';vJournal()"><span class="big">${FEEL[k].e}</span>${L(FEEL[k])}</button>`).join('')}</div>
+   <h3 class="jq">2. ${L(S('How big is the feeling?','ما حجم الشعور؟'))}</h3>
+   <div class="lvls">${THERMO.map((l,i)=>`<button style="background:${l.c}" class="${jd.lv===i?'sel':''}" onclick="jd.lv=${i};vJournal()">${l.e}<small>${i+1}</small></button>`).join('')}</div>
+   <h3 class="jq">3. ${L(S('What happened?','ماذا حدث؟'))}</h3>
+   <textarea id="jWhat" rows="3" placeholder="${L(S('Today…','اليوم…'))}">${esc(jd.what||'')}</textarea>
+   <h3 class="jq">4. ${L(S('What helped me / what can I do?','ما الذي ساعدني / ماذا أستطيع أن أفعل؟'))}</h3>
+   <div class="chips">${Object.entries(HELP).map(([k,h])=>`<button class="chip ${jd.help[k]?'on':''}" onclick="jd.what=$('jWhat').value;jd.help['${k}']=!jd.help['${k}'];vJournal()">${L(h)}</button>`).join('')}</div>
+   <div class="center mt"><button class="main-btn" onclick="saveEntry()">💾 ${L(S('Save','حفظ'))}</button></div>
+  </div>
+  <h3 style="font-size:22px;margin:22px 0 8px">🗓️ ${L(S('My pages','صفحاتي'))} (${journal.length})</h3>
+  ${journal.length?journal.map((e,i)=>`<div class="jentry"><div class="je-top"><span class="big">${FEEL[e.f].e}</span><div><b>${L(FEEL[e.f])}</b> · ${THERMO[e.lv].e} ${e.lv+1}/5<br><small>${new Date(e.d).toLocaleDateString(lang==='ar'?'ar-EG':'en-GB',{weekday:'long',day:'numeric',month:'long'})}</small></div><button class="btn del" onclick="delEntry(${i},this)">🗑️</button></div>${e.what?`<p>${esc(e.what)}</p>`:''}${e.help.length?`<div class="chips">${e.help.map(k=>`<span class="chip on">${L(HELP[k])}</span>`).join('')}</div>`:''}</div>`).join(''):`<p class="sub">${L(S('No pages yet. Write your first one!','لا توجد صفحات بعد. اكتب أول صفحة!'))}</p>`}`;
+  const ta=$('jWhat');if(ta)ta.oninput=()=>{jd.what=ta.value;};
+}
+function saveEntry(){
+  jd.what=$('jWhat').value.trim();
+  if(!jd.f){toast(L(S('Choose a feeling first 🙂','اختر شعورًا أولًا 🙂')));return;}
+  if(jd.lv==null){toast(L(S('How big is it? Choose 1–5','ما حجمه؟ اختر من 1 إلى 5')));return;}
+  journal.unshift({d:new Date().toISOString(),f:jd.f,lv:jd.lv,what:jd.what.slice(0,600),help:Object.keys(jd.help).filter(k=>jd.help[k])});
+  saveJ();jd={f:null,lv:null,help:{}};
+  once('jr'+new Date().toDateString(),2);
+  if(journal.length>=3&&earn('journal'))setTimeout(()=>toast(BADGES.journal.e+' '+L(T.newBadge)),1500);
+  vJournal();
+}
+function delEntry(i,b){
+  if(!b.dataset.sure){b.dataset.sure=1;b.textContent=L(S('Delete?','حذف؟'));b.style.borderColor='var(--red)';return;}
+  journal.splice(i,1);saveJ();vJournal();
+}
+
+/* role-play */
+const ROLE=[
+ {s:S("A kid calls you a mean name.","طفل يناديك بلقب مؤذٍ."),say:S("Stop. I don't like that.","توقف. أنا لا أحب هذا.")},
+ {s:S("Someone takes your pencil case without asking.","أحدهم يأخذ مقلمتك دون استئذان."),say:S("That's mine. Please give it back.","هذه لي. أعدها من فضلك.")},
+ {s:S("Some kids are playing a game you like.","بعض الأطفال يلعبون لعبة تحبها."),say:S("That looks fun! Can I play too?","تبدو ممتعة! هل يمكنني اللعب معكم؟")},
+ {s:S("A friend wants to copy your homework.","صديقك يريد أن ينقل واجبك."),say:S("No, I won't do that. But I can help you understand it.","لا، لن أفعل ذلك. لكن أستطيع أن أساعدك لتفهمه.")},
+ {s:S("Someone is laughing at your friend's drawing.","أحدهم يضحك على رسمة صديقتك."),say:S("Stop, that's not kind. Come with us!","توقف، هذا ليس لطيفًا. تعالي معنا!")},
+ {s:S("Someone keeps bothering you and won't stop.","أحدهم يستمر في مضايقتك ولا يتوقف."),say:S("Teacher, someone is bothering me. I need help.","يا أستاذة، أحدهم يضايقني. أحتاج مساعدة.")},
+ {s:S("Your cousin keeps tickling you after you said stop.","ابن عمك يستمر في دغدغتك بعد أن قلت توقف."),say:S("STOP! I said no.","توقف! قلت لا.")}
+];
+const CHECK=[S('🧍 I stood tall','🧍 وقفت مستقيمًا'),S('👀 I looked at the eyes','👀 نظرت في العينين'),S('🗣️ My voice was strong and calm','🗣️ صوتي كان قويًا وهادئًا'),S('✅ I said it clearly, without shouting or whispering','✅ قلتها بوضوح، دون صراخ أو همس')];
+let rp={i:0,said:0,chk:{}};
+function rpShow(){const g=$('gc');if(!g)return;recStopAll();g.innerHTML=rpBody();const rk='rp'+rp.i+'-'+lang;RECLBL[rk]=S('Brave Practice · '+(rp.i+1),'تدريب الشجاعة · '+(rp.i+1));renderRecBox(rk,'rpRec',S('Record yourself saying it','سجّل نفسك وأنت تقولها'));}
+function rpBody(){
+  const r=ROLE[rp.i];const done=k=>awarded['rpdone'+k];
+  return `<div class="g-count">${rp.i+1} / ${ROLE.length}</div>
+  <p class="rp-sit">🎬 ${L(r.s)}</p>
+  <div class="sentence center">${lang==='ar'?'«'+L(r.say)+'»':'“'+L(r.say)+'”'}</div>
+  <div class="tools" style="justify-content:center"><button class="btn yel" onclick="speak(L(ROLE[rp.i].say))">${L(T.hearIt)}</button></div>
+  <p class="center" style="font-weight:700;margin:14px 0 6px">${L(S('Your turn! Stand up and say it out loud 3 times.','دورك! قف وقلها بصوت عالٍ 3 مرات.'))}</p>
+  <div class="center"><button class="main-btn" style="background:var(--purple)" onclick="rp.said=Math.min(3,rp.said+1);rpShow()">🗣️ ${L(S('I said it','قلتها'))} (${rp.said}/3)</button></div>
+  <div class="recbox" id="rpRec" style="justify-content:center"></div>
+  ${rp.said>=3?`<div class="choice" style="margin-top:16px"><h3>🪞 ${L(S('Check yourself:','قيّم نفسك:'))}</h3>${CHECK.map((c,k)=>`<label class="chk"><input type="checkbox" ${rp.chk[k]?'checked':''} onchange="rp.chk[${k}]=this.checked">${L(c)}</label>`).join('')}
+   <div class="center mt"><button class="main-btn" onclick="rpDone()">${L(S('Done ✓','تم ✓'))}</button></div></div>`:''}
+  <div class="navrow" style="border:none;padding:16px 0 0"><button class="main-btn ghost" ${rp.i===0?'disabled':''} onclick="rp={i:rp.i-1,said:0,chk:{}};rpShow()">${L(T.back)}</button>
+  <div class="dots">${ROLE.map((_,k)=>`<span class="dot ${k===rp.i?'on':''}" style="${done(k)?'background:var(--green)':''}"></span>`).join('')}</div>
+  <button class="main-btn ghost" ${rp.i===ROLE.length-1?'disabled':''} onclick="rp={i:rp.i+1,said:0,chk:{}};rpShow()">${L(T.next)}</button></div>`;
+}
+function rpDone(){
+  const n=Object.values(rp.chk).filter(Boolean).length;
+  if(!awarded['rpdone'+rp.i]){awarded['rpdone'+rp.i]=1;save();}
+  once('rp'+rp.i,Math.max(1,n));
+  const msg=n===4?S('Wow! A real Brave Voice! 🦁','رائع! صوت شجاع حقيقي! 🦁'):n>=2?S('Good job! Practice again to tick all 4.','أحسنت! تدرّب مرة أخرى لتحقق الأربعة.'):S('Good start! Try again: stand tall and look at the eyes.','بداية جيدة! حاول مرة أخرى: قف مستقيمًا وانظر في العينين.');
+  let won='';
+  if(ROLE.filter((_,k)=>awarded['rpdone'+k]).length>=4)won=winBadge('roleplay');
+  $('gc').innerHTML=`<div class="result"><div class="big">${n===4?'🦁':'💪'}</div><h3>${n} / 4</h3><p>${L(msg)}</p>${won}
+   <button class="main-btn mt" onclick="rp={i:${rp.i},said:0,chk:{}};rpShow()">${L(S('Practice again ↻','تدرّب مرة أخرى ↻'))}</button>
+   ${rp.i<ROLE.length-1?`<button class="main-btn mt" style="margin-inline-start:6px" onclick="rp={i:${rp.i+1},said:0,chk:{}};rpShow()">${L(T.next)}</button>`:''}</div>`;
+}
+
+/* finish the story */
+const FINISH=[
+ {id:1,img:'p4',color:'#f3b93a',title:S("The New Boy at Lunch","الولد الجديد في الغداء"),
+  start:S("A new boy, Sami, sits alone at lunch. He looks at his food and doesn't eat. Lina remembers how she felt when she sat alone. What happens next?","يجلس ولد جديد اسمه سامي وحده في وقت الغداء. ينظر إلى طعامه ولا يأكل. تتذكر لينا كيف شعرت عندما جلست وحدها. ماذا يحدث بعد ذلك؟"),
+  ends:[
+   {t:S("Lina sits with Sami and asks: “What games do you like?”","تجلس لينا مع سامي وتسأله: «ما الألعاب التي تحبها؟»"),r:S("Sami smiles for the first time today. Tomorrow he saves a seat for Lina! Kindness spreads.","يبتسم سامي لأول مرة اليوم. وفي الغد يحجز مكانًا للينا! اللطف ينتشر."),ok:1},
+   {t:S("Lina looks away. It's not her problem.","تنظر لينا بعيدًا. هذه ليست مشكلتها."),r:S("Sami eats alone again, and Lina feels heavy inside. Think: how would Lina feel if she were Sami?","يأكل سامي وحده مرة أخرى، وتشعر لينا بثقل في قلبها. فكّر: كيف كانت ستشعر لينا لو كانت مكان سامي؟"),ok:0},
+   {t:S("Lina tells Sara and Maya: “Let's all sit with the new boy!”","تقول لينا لسارة ومايا: «هيا نجلس كلنا مع الولد الجديد!»"),r:S("Now Sami has three new friends. A group can include others, not only leave them out!","الآن أصبح لسامي ثلاثة أصدقاء جدد. المجموعة يمكن أن تُشرك الآخرين، لا أن تستبعدهم فقط!"),ok:1}]},
+ {id:2,img:'f2',ph:'📱🪙🔒',color:'#8b6cc4',title:S("The Free Coins Message","رسالة العملات المجانية"),
+  start:S("Adam is playing a game on the tablet. A message pops up from a stranger: “Send me your password and I'll give you 1000 free coins!” What does Adam do?","يلعب آدم لعبة على التابلت. تظهر رسالة من شخص غريب: «أرسل لي كلمة السر وسأعطيك 1000 عملة مجانية!» ماذا يفعل آدم؟"),
+  ends:[
+   {t:S("Adam sends his password. Free coins!","يرسل آدم كلمة السر. عملات مجانية!"),r:S("The stranger takes Adam's account and all his game progress. Never share passwords — they are like the key to your house.","يسرق الغريب حساب آدم وكل تقدمه في اللعبة. لا تشارك كلمة السر أبدًا، فهي مثل مفتاح بيتك."),ok:0},
+   {t:S("Adam doesn't reply and shows Dad.","لا يرد آدم ويُري الرسالة لبابا."),r:S("Dad blocks and reports the stranger. Adam's account stays safe. Smart move!","يحظر بابا الغريب ويبلّغ عنه، ويبقى حساب آدم آمنًا. تصرف ذكي!"),ok:1},
+   {t:S("Adam asks: “Who are you?” and keeps chatting.","يسأل آدم: «من أنت؟» ويستمر في الدردشة."),r:S("Strangers online can pretend to be anyone. Don't chat with them — tell an adult.","الغرباء على الإنترنت يمكنهم التظاهر بأنهم أي شخص. لا تدردش معهم، وأخبر شخصًا كبيرًا."),ok:0}]},
+ {id:3,img:'s3-2',color:'#5fb3c9',title:S("The Prank","المقلب"),
+  start:S("Laila whispers to Nour: “Let's hide Rosa's bag. It will be so funny when she can't find it!” What does Nour do?","تهمس ليلى لنور: «هيا نخبئ حقيبة روزا. سيكون مضحكًا جدًا عندما لا تجدها!» ماذا تفعل نور؟"),
+  ends:[
+   {t:S("Nour helps hide the bag.","تساعد نور في إخفاء الحقيبة."),r:S("Rosa looks for her bag and starts to cry. A joke isn't funny if someone gets hurt. Nour feels bad.","تبحث روزا عن حقيبتها وتبدأ في البكاء. المزحة ليست مضحكة إذا تأذى أحد، وتشعر نور بالذنب."),ok:0},
+   {t:S("Nour says: “No. That's not a joke, it's mean. Let's not do it.”","تقول نور: «لا. هذه ليست مزحة، بل تصرف قاسٍ. لن نفعلها».") ,r:S("Laila stops and thinks. Nour used her strong and kind voice — and saved Rosa's day.","تتوقف ليلى وتفكر. استخدمت نور صوتها القوي واللطيف، وأنقذت يوم روزا."),ok:1},
+   {t:S("Nour says nothing to Laila, but later tells Rosa where her bag is.","لا تقول نور شيئًا لليلى، لكنها تخبر روزا لاحقًا بمكان حقيبتها."),r:S("Rosa finds her bag — that's kind! Next time Nour can also say “no” to Laila, to stop the prank from the start.","تجد روزا حقيبتها، وهذا لطيف! وفي المرة القادمة تستطيع نور أن تقول «لا» لليلى لتمنع المقلب من البداية."),ok:1}]}
+];
+function vFinish(id){
+  const f=FINISH.find(x=>x.id==id);if(!f)return vStories();
+  let mine='';try{mine=localStorage.getItem('fl_end_'+id)||'';}catch(e){}
+  app.innerHTML=head('✍️',f.title,S('Finish the story','أكمل القصة'))+`<div class="card story">${pic(f.img,f.ph||'✍️',f.color)}
+   <div class="scene-body"><div class="scene-text">${L(f.start)}</div>
+    <div class="tools"><button class="btn yel" onclick="speak(strip(L(FINISH[${id-1}].start)))">${L(T.listen)}</button></div>
+    <div class="choice"><h3>🔮 ${L(S('Choose an ending and see what happens:','اختر نهاية وانظر ماذا يحدث:'))}</h3>
+     ${f.ends.map((e,k)=>`<button class="opt" onclick="finPick(${id},${k},this)">${L(e.t)}</button>`).join('')}<div class="fb" id="fb"></div></div>
+    <div class="thinkbox"><h3>✍️ ${L(S('Or write your own ending:','أو اكتب نهايتك الخاصة:'))}</h3>
+     <textarea id="myEnd" rows="4" placeholder="${L(S('Then…','وبعد ذلك…'))}">${esc(mine)}</textarea>
+     <div class="center mt"><button class="main-btn" onclick="finSave(${id})">💾 ${L(S('Save my ending','احفظ نهايتي'))}</button></div>
+     <div class="recbox" id="finRec" style="justify-content:center"></div></div>
+   </div></div>
+   <div class="center mt"><a class="btn" href="#stories" style="text-decoration:none;display:inline-block">${L(T.moreStories)}</a></div>`;
+}
+function finRecInit(id){const rk='fin'+id+'-'+lang;const f=FINISH[id-1];RECLBL[rk]=S('My ending · '+f.title.en,'نهايتي · '+f.title.ar);renderRecBox(rk,'finRec',S('Tell your ending with your voice','احكِ نهايتك بصوتك'));}
+function finPick(id,k,b){
+  const e=FINISH[id-1].ends[k];
+  app.querySelectorAll('.choice .opt').forEach(x=>x.classList.remove('good','bad'));
+  b.classList.add(e.ok?'good':'bad');
+  const fb=$('fb');fb.className='fb show '+(e.ok?'good':'bad');fb.textContent=(e.ok?'✅ ':'💭 ')+L(e.r);
+  if(e.ok)finishDone(id);
+}
+function finSave(id){
+  const v=$('myEnd').value.trim();if(!v){toast(L(S('Write something first ✏️','اكتب شيئًا أولًا ✏️')));return;}
+  try{localStorage.setItem('fl_end_'+id,v.slice(0,1500));}catch(e){}
+  toast('💾 ✓');finishDone(id);
+}
+function finishDone(id){
+  if(!awarded['fin'+id]){awarded['fin'+id]=1;save();once('finst'+id,2);}
+  if(FINISH.every(f=>awarded['fin'+f.id])&&earn('finish'))setTimeout(()=>toast(BADGES.finish.e+' '+L(T.newBadge)),1500);
+}
+
+/* parents' corner */
+const PARENTS=[
+ {h:S('🚩 Signs your child may be bullied','🚩 علامات قد تدل على تعرض طفلك للتنمر'),s:[
+  S("Doesn't want to go to school, or has stomach aches and headaches on school mornings.","لا يريد الذهاب إلى المدرسة، أو يشكو من ألم في البطن أو الرأس صباح أيام الدراسة."),
+  S("Comes home with lost or broken things.","يعود إلى البيت وقد فقد أشياءه أو تكسّرت."),
+  S("Changes in sleep, appetite or mood; cries more or gets angry quickly.","تغيّر في النوم أو الأكل أو المزاج؛ يبكي أكثر أو يغضب بسرعة."),
+  S("Avoids certain kids, places, or the class chat; looks upset after using the phone.","يتجنب أطفالًا أو أماكن معينة أو مجموعة الفصل، ويبدو منزعجًا بعد استخدام الهاتف."),
+  S("Says things like “Nobody likes me” or “I have no friends”.","يقول عبارات مثل «لا أحد يحبني» أو «ليس لي أصدقاء».")]},
+ {h:S('👂 When your child tells you','👂 عندما يحكي لك طفلك'),s:[
+  S("Stay calm. Your calm face tells your child it's safe to talk.","حافظ على هدوئك. وجهك الهادئ يخبر طفلك أن الحديث آمن."),
+  S("Listen to the whole story without interrupting or blaming.","استمع للقصة كاملة دون مقاطعة أو لوم."),
+  S("Thank them for telling you, and say clearly: it is not your fault.","اشكره لأنه أخبرك، وقل له بوضوح: هذا ليس خطأك."),
+  S("Ask: “What would you like to happen?” Then make a plan together.","اسأله: «ماذا تحب أن يحدث؟» ثم ضعا خطة معًا."),
+  S("Don't promise to keep it a secret — you may need to tell the school.","لا تعده بكتمان السر، فقد تحتاج إلى إخبار المدرسة.")]},
+ {h:S('💬 Helpful words','💬 كلمات تساعد'),s:[
+  S("“Thank you for telling me.”","«شكرًا لأنك أخبرتني»."),
+  S("“It's not your fault.”","«هذا ليس خطأك»."),
+  S("“You did the right thing.”","«لقد فعلت الصواب»."),
+  S("“We'll figure this out together.”","«سنجد حلًا معًا».")]},
+ {h:S('🚫 Words to avoid','🚫 كلمات يُفضَّل تجنبها'),s:[
+  S("“Just hit them back.” — it can get your child hurt or in trouble.","«اضربه كما ضربك». قد يتأذى طفلك أو يقع في مشكلة."),
+  S("“Just ignore it.” — alone, this often doesn't stop bullying.","«تجاهله فقط». وحدها غالبًا لا توقف التنمر."),
+  S("“You're too sensitive.” — it teaches your child not to tell you next time.","«أنت حساس زيادة». تعلّم طفلك ألا يحكي لك في المرة القادمة."),
+  S("Rushing to confront the other child or their parents in anger.","الاندفاع لمواجهة الطفل الآخر أو أهله بغضب.")]},
+ {h:S('🏫 Working with the school','🏫 التعاون مع المدرسة'),s:[
+  S("Write down what happened: dates, places, names, messages (take screenshots).","دوّن ما حدث: التواريخ والأماكن والأسماء والرسائل (التقط صورًا للشاشة)."),
+  S("Meet the teacher calmly and ask what the school will do.","قابل المعلم بهدوء واسأل ماذا ستفعل المدرسة."),
+  S("Follow up after a week: is it better?","تابع بعد أسبوع: هل تحسّن الوضع؟")]},
+ {h:S('🏠 Daily habits that protect','🏠 عادات يومية تحمي طفلك'),s:[
+  S("A 10-minute chat every day: “What was the best part of your day? The hardest part?”","حديث يومي لمدة 10 دقائق: «ما أجمل شيء في يومك؟ وما أصعب شيء؟»"),
+  S("Use this page together: one story a day, then talk about the “Think and talk” questions.","استخدما هذه الصفحة معًا: قصة كل يوم، ثم تحدثا عن أسئلة «فكّر وتحدّث»."),
+  S("Do Brave Practice together: you play the other child, then swap roles.","تدرّبا معًا في «تدريب الشجاعة»: أنت تمثل دور الطفل الآخر، ثم تبادلا الأدوار."),
+  S("Read the Feelings Journal together — without judging what your child wrote.","اقرآ يوميات المشاعر معًا، دون أن تحكم على ما كتبه طفلك.")]},
+ {h:S('🩺 When to get more help','🩺 متى تطلب مساعدة متخصصة'),s:[
+  S("If sadness, fear or school refusal lasts for weeks, talk to the school counselor, a doctor or a child psychologist.","إذا استمر الحزن أو الخوف أو رفض المدرسة لأسابيع، تحدث مع الأخصائي الاجتماعي في المدرسة أو طبيب أو أخصائي نفسي للأطفال."),
+  S("If your child talks about hurting themselves, get help from a professional right away.","إذا تحدث طفلك عن إيذاء نفسه، اطلب مساعدة متخصصة فورًا.")]}
+];
+function vParents(){
+  app.innerHTML=head('👪',S("Parents' Corner","ركن الأهل"),S('How to protect your child and talk about bullying.','كيف تحمي طفلك وتتحدث معه عن التنمر.'))+
+  PARENTS.map(p=>`<div class="card skill-card" style="margin-bottom:12px"><h3>${L(p.h)}</h3><ul>${p.s.map(x=>`<li>${L(x)}</li>`).join('')}</ul></div>`).join('');
+}
+
+/* =========================================================
+   READ-ALOUD RECORDINGS (microphone + IndexedDB)
+   ========================================================= */
+const RECLBL={};let mr=null,recChunks=[],recTimer=null,recStart=0,recAudio=null,recKey=null;
+function recDB(){return new Promise((res,rej)=>{try{if(recDB.db)return res(recDB.db);const r=indexedDB.open('fl_rec',1);r.onupgradeneeded=()=>r.result.createObjectStore('rec');r.onsuccess=()=>{recDB.db=r.result;res(r.result);};r.onerror=()=>rej(r.error);}catch(e){rej(e);}});}
+function recTx(mode,fn){return recDB().then(db=>new Promise((res,rej)=>{const t=db.transaction('rec',mode);const st=t.objectStore('rec');let out;const r=fn(st);if(r)r.onsuccess=()=>{out=r.result;};t.oncomplete=()=>res(out);t.onerror=()=>rej(t.error);}));}
+const recPut=(k,v)=>recTx('readwrite',st=>st.put(v,k));
+const recGet=k=>recTx('readonly',st=>st.get(k));
+const recDel=k=>recTx('readwrite',st=>st.delete(k));
+async function recAll(){const keys=await recTx('readonly',st=>st.getAllKeys());const vals=await recTx('readonly',st=>st.getAll());return (keys||[]).map((k,i)=>({k,...vals[i]}));}
+function pickMime(){const c=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg'];try{for(const m of c)if(MediaRecorder.isTypeSupported(m))return m;}catch(e){}return '';}
+function recStopAll(){try{if(mr&&mr.state==='recording')mr.stop();}catch(e){}try{if(recAudio){recAudio.pause();recAudio=null;}}catch(e){}}
+async function renderRecBox(key,boxId,promptTxt){
+  const box=$(boxId);if(!box)return;
+  if(mr&&recKey===key&&mr.state==='recording'){
+    box.innerHTML=`<span class="recdot"></span><b>${L(S('Recording…','جارٍ التسجيل…'))} <span id="recT">0</span>s</b><button class="btn rec" onclick="recToggle('${key}','${boxId}')">⏹ ${L(S('Stop','إيقاف'))}</button>`;return;}
+  let r=null;try{r=await recGet(key);}catch(e){}
+  if(!$(boxId))return;
+  box.innerHTML=`<button class="btn rec" onclick="recToggle('${key}','${boxId}')">🎙️ ${r?L(S('Record again','سجّل مرة أخرى')):L(promptTxt||S('Read it with your voice','اقرأ بصوتك'))}</button>`+
+   (r?`<button class="btn grn" onclick="recPlay('${key}')">▶️ ${L(S('My recording','تسجيلي'))} (${r.dur||0}s)</button><button class="btn" onclick="recDelete('${key}','${boxId}',this)">🗑️</button>`:'');
+}
+async function recToggle(key,boxId){
+  if(mr&&mr.state==='recording'){mr.stop();return;}
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){toast(L(S('🎙️ Recording is not supported in this browser. Use Chrome.','🎙️ هذا المتصفح لا يدعم التسجيل. استخدم Chrome.')));return;}
+  let stream;
+  try{stream=await navigator.mediaDevices.getUserMedia({audio:true});}
+  catch(e){toast(L(S('🎙️ Microphone not allowed. Tap the 🔒 next to the address and allow the microphone. (Recording works on the github.io link, not inside the Claude app.)','🎙️ الميكروفون غير مسموح. اضغط علامة 🔒 بجانب العنوان واسمح بالميكروفون. (التسجيل يعمل على رابط github.io وليس داخل تطبيق Claude).')));return;}
+  try{speechSynthesis.cancel();}catch(e){}try{if(recAudio)recAudio.pause();}catch(e){}
+  const mime=pickMime();recChunks=[];recKey=key;
+  try{mr=new MediaRecorder(stream,mime?{mimeType:mime}:undefined);}catch(e){mr=new MediaRecorder(stream);}
+  const thisMr=mr;
+  mr.ondataavailable=e=>{if(e.data&&e.data.size)recChunks.push(e.data);};
+  mr.onstop=async()=>{
+    stream.getTracks().forEach(t=>t.stop());clearInterval(recTimer);
+    const dur=Math.max(1,Math.round((Date.now()-recStart)/1000));
+    const blob=new Blob(recChunks,{type:thisMr.mimeType||mime||'audio/webm'});mr=null;recKey=null;
+    if(blob.size<800){toast(L(S('Too short — try again.','التسجيل قصير جدًا، حاول مرة أخرى.')));renderRecBox(key,boxId);return;}
+    try{await recPut(key,{blob,t:Date.now(),dur,label:RECLBL[key]||S(key,key)});once('rec:'+key);toast('💾 ✓');checkReaderBadge();}
+    catch(e){toast(L(S('Could not save the recording on this device.','لم يمكن حفظ التسجيل على هذا الجهاز.')));}
+    renderRecBox(key,boxId);
+  };
+  mr.start(250);recStart=Date.now();renderRecBox(key,boxId);
+  recTimer=setInterval(()=>{const s=Math.floor((Date.now()-recStart)/1000);const el=$('recT');if(el)el.textContent=s;if(s>=120&&mr&&mr.state==='recording')mr.stop();},300);
+}
+async function recPlay(key){
+  try{if(recAudio){recAudio.pause();}speechSynthesis.cancel();}catch(e){}
+  const r=await recGet(key).catch(()=>null);if(!r)return;
+  const url=URL.createObjectURL(r.blob);recAudio=new Audio(url);recAudio.onended=()=>URL.revokeObjectURL(url);
+  recAudio.play().catch(()=>toast(L(S('Could not play this recording.','لم يمكن تشغيل التسجيل.'))));
+}
+async function recDelete(key,boxId,b){
+  if(!b.dataset.sure){b.dataset.sure=1;b.textContent=L(S('Delete?','حذف؟'));b.style.borderColor='var(--red)';return;}
+  await recDel(key).catch(()=>{});if(boxId==='__list')vRecs();else renderRecBox(key,boxId);
+}
+async function checkReaderBadge(){try{const all=await recAll();if(all.length>=5&&earn('reader'))setTimeout(()=>toast(BADGES.reader.e+' '+L(T.newBadge)),1500);}catch(e){}}
+async function vRecs(){
+  app.innerHTML=head('🎙️',S('My Recordings','تسجيلاتي'),S('Your voice reading the stories. Saved only in this browser on this device.','صوتك وأنت تقرأ القصص. محفوظة في هذا المتصفح على هذا الجهاز فقط.'))+`<div id="recList"><p class="sub">…</p></div>`;
+  let all=[];try{all=await recAll();}catch(e){}
+  const el=$('recList');if(!el)return;
+  if(!all.length){el.innerHTML=`<div class="card center"><div style="font-size:52px">🎙️</div><p>${L(S('No recordings yet. Open a story and tap “🎙️ Read it with your voice”.','لا توجد تسجيلات بعد. افتح قصة واضغط «🎙️ اقرأ بصوتك».'))}</p><a class="main-btn" href="#stories" style="text-decoration:none;display:inline-block">${L(T.stories)}</a></div>`;return;}
+  all.sort((a,b)=>b.t-a.t);
+  el.innerHTML=all.map(r=>{const url=URL.createObjectURL(r.blob);const ext=(r.blob.type||'').includes('mp4')?'m4a':(r.blob.type||'').includes('ogg')?'ogg':'webm';
+   return `<div class="jentry"><div class="je-top"><span class="big">🎙️</span><div><b>${esc(L(r.label))}</b><br><small>${new Date(r.t).toLocaleDateString(lang==='ar'?'ar-EG':'en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${r.dur||0}s</small></div></div>
+   <div class="tools"><button class="btn grn" onclick="recPlay('${r.k}')">▶️ ${L(S('Play','تشغيل'))}</button><a class="btn" href="${url}" download="${r.k}.${ext}" style="text-decoration:none">⬇️ ${L(S('Save to device','حفظ على الجهاز'))}</a><button class="btn" onclick="recDelete('${r.k}','__list',this)">🗑️</button></div></div>`;}).join('');
+}
+/* =========================================================
+   ROUTER
+   ========================================================= */
+let viewTok=0;
+function route(keep){
+  viewTok++;
+  recStopAll();
+  try{speechSynthesis.cancel();}catch(e){}
+  if(breathTimer){clearTimeout(breathTimer);breathTimer=null;}
+  setChrome();
+  const h=(location.hash||'#home').slice(1);
+  if(h.startsWith('story-')){vStory(+h.slice(6));return;}
+  cur={s:null,i:0,ans:{}};
+  if(h.startsWith('game-'))vGame(h.slice(5));
+  else if(h.startsWith('tool-'))vTool(h.slice(5));
+  else if(h==='stories')vStories();
+  else if(h==='games')vGames();
+  else if(h==='tools')vTools();
+  else if(h==='badges')vBadges();
+  else if(h==='book')vBook();
+  else if(h==='journal')vJournal();
+  else if(h==='parents')vParents();
+  else if(h==='sound')vSound();
+  else if(h==='recs')vRecs();
+  else if(h.startsWith('finish-')){vFinish(+h.slice(7));finRecInit(+h.slice(7));}
+  else vHome();
+  if(!keep)window.scrollTo({top:0});
+}
+/* if images were uploaded without the img/ folder, look for them next to index.html */
+document.addEventListener('error',e=>{const t=e.target;if(t&&t.tagName==='IMG'&&!t.dataset.f&&/\/img\/[^/]+\.jpg/.test(t.src)){t.dataset.f=1;t.src=t.src.replace(/\/img\/([^/]+\.jpg)/,'/$1');}},true);
+window.addEventListener('hashchange',()=>route());
+route();
+</script>
+</body>
+</html>
